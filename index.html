@@ -818,6 +818,13 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
   opacity:0;transition:opacity .6s ease;
 }
 .ld-tag.in{opacity:1;}
+
+/* ── Body editor ── */
+.fmt-btn{background:var(--bg);border:1px solid var(--border);color:var(--muted);padding:.3rem .7rem;font-family:'DM Mono',monospace;font-size:.62rem;cursor:pointer;transition:all .2s;border-radius:2px;white-space:nowrap}
+.fmt-btn:hover,.fmt-img-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.fmt-img-btn{display:inline-flex;align-items:center;gap:.4rem}
+#body-drop-zone{border:1px dashed var(--border);border-bottom:none;padding:1rem 1.4rem;display:flex;align-items:center;gap:.8rem;color:var(--muted);font-family:'DM Mono',monospace;font-size:.62rem;transition:all .2s;cursor:pointer;background:var(--bg)}
+#body-drop-zone:hover,#body-drop-zone.drag-over{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
 </style>
 </head>
 <body>
@@ -1009,7 +1016,38 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
           <input type="hidden" id="na-img-data" value="">
         </div>
         <div class="fg"><label class="lbl">Excerpt (shown on cards)</label><textarea class="fi" id="na-excerpt" style="min-height:70px" placeholder="1-2 sentence summary..."></textarea></div>
-        <div class="fg"><label class="lbl">Full Content * (HTML: h2, h3, p, strong, blockquote)</label><textarea class="fi" id="na-body" style="min-height:280px;font-family:'DM Mono',monospace;font-size:.78rem" placeholder="Write full content here using HTML tags..."></textarea></div>
+        <div class="fg" id="body-editor-wrap">
+          <label class="lbl">Full Content * <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— HTML supported</span></label>
+
+          <!-- Quick format toolbar -->
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.6rem">
+            <button type="button" class="fmt-btn" onclick="insertFmt('h2')">H2</button>
+            <button type="button" class="fmt-btn" onclick="insertFmt('h3')">H3</button>
+            <button type="button" class="fmt-btn" onclick="insertFmt('p')">¶ Para</button>
+            <button type="button" class="fmt-btn" onclick="insertFmt('blockquote')">❝ Quote</button>
+            <button type="button" class="fmt-btn" onclick="insertFmt('strong')"><b>Bold</b></button>
+            <button type="button" class="fmt-btn" onclick="insertFmt('a')">🔗 Link</button>
+            <div style="width:1px;background:var(--border);margin:0 .2rem"></div>
+            <button type="button" class="fmt-btn fmt-img-btn" onclick="document.getElementById('body-img-input').click()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Insert Image
+            </button>
+            <input type="file" id="body-img-input" accept="image/*" multiple style="display:none" onchange="insertBodyImages(this)">
+          </div>
+
+          <!-- Drag & drop zone -->
+          <div id="body-drop-zone"
+               ondragover="event.preventDefault();this.classList.add('drag-over')"
+               ondragleave="this.classList.remove('drag-over')"
+               ondrop="handleBodyDrop(event)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Drag &amp; drop images here to embed them inline</span>
+          </div>
+
+          <!-- Body textarea -->
+          <textarea class="fi" id="na-body" style="min-height:320px;font-family:'DM Mono',monospace;font-size:.76rem;border-top:none" placeholder="Write full content here using HTML tags..."></textarea>
+          <p id="body-img-status" style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--gold);margin-top:.4rem;min-height:.9rem"></p>
+        </div>
         <div style="display:flex;gap:1rem;margin-top:1rem;align-items:center;flex-wrap:wrap">
           <button class="btn-gold" onclick="publishArticle()">Publish</button>
           <button class="btn-outline" onclick="clearArtForm()">Clear</button>
@@ -2802,6 +2840,73 @@ function loadStatsIntoAdmin(){
   if(rEl)rEl.value=ARTS.length;
 }
 // ── End Site Stats ────────────────────────────────────────
+
+// ── Body editor helpers ───────────────────────────────────
+function fileToBase64(file){
+  return new Promise(function(resolve,reject){
+    var r=new FileReader();
+    r.onload=function(e){resolve(e.target.result);};
+    r.onerror=reject;
+    r.readAsDataURL(file);
+  });
+}
+
+async function insertBodyImages(input){
+  var files=Array.from(input.files);
+  if(!files.length)return;
+  var st=document.getElementById('body-img-status');
+  var ta=document.getElementById('na-body');
+  if(st)st.textContent='Embedding '+files.length+' image'+(files.length>1?'s':'')+'...';
+  for(var i=0;i<files.length;i++){
+    var f=files[i];
+    try{
+      var b64=await fileToBase64(f);
+      var altText=f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
+      var tag='\n<p><img src="'+b64+'" alt="'+altText+'" style="max-width:100%;height:auto;display:block;margin:1.5rem 0"></p>\n<p style="font-size:.78rem;color:var(--muted);margin-top:-.5rem;margin-bottom:1.5rem">'+altText+'</p>\n';
+      // Insert at cursor position
+      var start=ta.selectionStart;
+      var before=ta.value.substring(0,start);
+      var after=ta.value.substring(ta.selectionEnd);
+      ta.value=before+tag+after;
+      ta.selectionStart=ta.selectionEnd=start+tag.length;
+      if(st)st.textContent='✓ Image embedded ('+Math.round(b64.length/1024)+'KB)';
+      setTimeout(function(){if(st)st.textContent='';},3000);
+    }catch(e){
+      if(st)st.textContent='Error embedding image';
+    }
+  }
+  input.value=''; // reset so same file can be re-selected
+}
+
+function handleBodyDrop(e){
+  e.preventDefault();
+  document.getElementById('body-drop-zone').classList.remove('drag-over');
+  var files=Array.from(e.dataTransfer.files).filter(function(f){return f.type.startsWith('image/');});
+  if(!files.length)return;
+  // Create a fake input to reuse insertBodyImages
+  var fakeInput={files:files};
+  insertBodyImages(fakeInput);
+}
+
+function insertFmt(tag){
+  var ta=document.getElementById('na-body');
+  var start=ta.selectionStart;
+  var end=ta.selectionEnd;
+  var sel=ta.value.substring(start,end)||'Text here';
+  var wrapped;
+  if(tag==='a'){
+    var url=prompt('URL:','https://');
+    if(!url)return;
+    wrapped='<a href="'+url+'" target="_blank" rel="noopener">'+sel+'</a>';
+  } else {
+    wrapped='<'+tag+'>'+sel+'</'+tag+'>';
+    if(['h2','h3','p','blockquote'].includes(tag)) wrapped='\n'+wrapped+'\n';
+  }
+  ta.value=ta.value.substring(0,start)+wrapped+ta.value.substring(end);
+  ta.selectionStart=ta.selectionEnd=start+wrapped.length;
+  ta.focus();
+}
+// ── End body editor helpers ───────────────────────────────
 
 function buildTicker(){
   var el=document.getElementById('ticker-inner');if(!el)return;
