@@ -892,12 +892,12 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
       <a onclick="toggleDD('dd-involve')">Get Involved &#x2193;</a>
       <div class="dd-menu">
         <a onclick="closeAllDD();goPage('contributors')">Contributor Roles</a>
-        <a onclick="closeAllDD();goPage('apply')">Apply Now</a>
+        <a onclick="closeAllDD();goPage('contributors')">Apply Now</a>
         <a onclick="closeAllDD();goPage('partnership')">Partnership</a>
         <a onclick="closeAllDD();goPage('network')">The Network</a>
       </div>
     </li>
-    <li><a class="nav-cta" onclick="goPage('apply')">Apply Now</a></li>
+    <li><a class="nav-cta" onclick="goPage('contributors')">Apply Now</a></li>
   </ul>
 </nav>
 
@@ -990,6 +990,7 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
           <div class="fg"><label class="lbl">Team *</label><select class="fi" id="na-team"><option value="">Select team...</option><option value="tech">Technology &amp; Innovation</option><option value="vc">Venture Capital &amp; PE</option><option value="markets">Global Markets</option><option value="advisory">Corporate Advisory</option><option value="perspectives">Perspectives &amp; Culture</option></select></div>
         </div>
         <div class="fg"><label class="lbl">Author *</label><input class="fi" id="na-author" type="text" placeholder="Author name..."></div>
+        <div class="fg"><label class="lbl">Publication Date</label><input class="fi" id="na-date" type="date" title="Leave blank to use today\'s date"></div>
         <div class="fg" id="na-pdf-wrap"><label class="lbl">PDF Download URL <span style="color:var(--muted);font-weight:400">(paste link — Google Drive, Dropbox, etc.)</span></label><input class="fi" id="na-pdf" type="url" placeholder="https://drive.google.com/file/..."></div>
         <div class="fg" id="na-img-wrap">
           <label class="lbl">Featured Image <span style="color:var(--muted);font-weight:400">(optional — shown on featured card)</span></label>
@@ -1074,7 +1075,7 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
       </div>
     </div>
     <div class="hi-right">
-      <div class="hi-stat"><span class="hi-stat-n counter" data-t="30">0</span><span class="hi-stat-l">Countries</span></div>
+      <div class="hi-stat"><span class="hi-stat-n counter" data-t="11">0</span><span class="hi-stat-l">Countries</span></div>
       <div class="hi-stat"><span class="hi-stat-n counter" data-t="0">0</span><span class="hi-stat-l">Reports</span></div>
       <div class="hi-stat"><span class="hi-stat-n counter" data-t="30">0</span><span class="hi-stat-l">Student Members</span></div>
     </div>
@@ -1309,37 +1310,48 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
 <div class="page" id="page-apply">
   <div class="apply-hero">
     <div class="hero-grid-bg" style="opacity:.2"></div>
-    <div class="rv"><p class="section-tag">Open Applications</p><h1 class="section-title" style="font-size:clamp(2.5rem,5vw,5rem)">Join<em> Envision.</em></h1><p style="color:var(--muted);margin-top:1rem;font-size:.9rem;max-width:500px;line-height:1.8">Choose your role, tell us about yourself, and join one of the most ambitious student research associations in the world.</p></div>
+    <div class="rv"><p class="section-tag">Open Applications</p><h1 class="section-title" style="font-size:clamp(2.5rem,5vw,5rem)">Join<em> Envision.</em></h1><p style="color:var(--muted);margin-top:1rem;font-size:.9rem;max-width:500px;line-height:1.8">Select your role below, copy the message template, and send it to us via LinkedIn. We respond within 5&ndash;7 days.</p></div>
   </div>
-  <div class="apply-form-grid">
-    <div class="apply-sidebar rv-l">
-      <h3>What happens next?</h3>
-      <p>After submitting, our team reviews your application within 5&ndash;7 days. If selected, you&#39;ll be invited for a short informal call — no formal interview, just a conversation about your interests and motivation.</p>
-      <ul class="apply-list"><li>Application reviewed within 5&ndash;7 days</li><li>Informal introductory call arranged</li><li>Role fit assessment by team leads</li><li>Onboarding via Slack if successful</li><li>First report published within 4&ndash;6 weeks</li></ul>
-      <div style="margin-top:2.5rem;padding:1.5rem;background:var(--gold-dim);border-left:2px solid var(--gold)"><p style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem">Open Roles</p><p style="font-size:.82rem;color:var(--muted);line-height:1.7">Consultant, Editor, and Board positions are currently open. Team Lead applications require a short letter of motivation outlining your vision for the role.</p></div>
-    </div>
-    <div class="rv-r">
-      <div class="form-wrap">
-        <h3 class="form-title">Application Form</h3>
-        <p class="form-sub">All fields marked with * are required.</p>
-        <div class="form-row"><div class="fg"><label class="lbl">First Name *</label><input class="fi" id="ap-fname" type="text" placeholder="Your first name"></div><div class="fg"><label class="lbl">Last Name *</label><input class="fi" id="ap-lname" type="text" placeholder="Your last name"></div></div>
-        <div class="form-row"><div class="fg"><label class="lbl">Email Address *</label><input class="fi" id="ap-email" type="email" placeholder="your@email.com"></div><div class="fg"><label class="lbl">Phone (optional)</label><input class="fi" id="ap-phone" type="tel" placeholder="+31 6 ..."></div></div>
-        <div class="form-row"><div class="fg"><label class="lbl">University / Institution *</label><input class="fi" id="ap-uni" type="text" placeholder="e.g. Erasmus University, LSE, TU Delft..."></div><div class="fg"><label class="lbl">Field of Study *</label><input class="fi" id="ap-field" type="text" placeholder="e.g. Economics, Finance, Law, Engineering..."></div></div>
-        <div class="form-row">
-          <div class="fg"><label class="lbl">Role Applying For *</label><select class="fi" id="ap-role" onchange="toggleMotiv()"><option value="">Select a role...</option><option value="Analyst">Analyst</option><option value="Editor">Editor</option><option value="Board">Team Lead</option></select></div>
-          <div class="fg"><label class="lbl">Preferred Team *</label><select class="fi" id="ap-team"><option value="">Select a team...</option><option value="tech">Technology &amp; Innovation</option><option value="vc">Venture Capital &amp; PE</option><option value="markets">Global Markets</option><option value="advisory">Corporate Advisory</option><option value="any">No preference</option></select></div>
+  <section class="s-pad" style="padding-top:5rem">
+    <div style="max-width:720px;margin:0 auto">
+      <!-- Role selector -->
+      <div class="fg" style="margin-bottom:2rem">
+        <label class="lbl" style="font-size:.72rem">Select a Role</label>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem">
+          <button class="fb on" onclick="setApplyRole(this,'Analyst')">Analyst</button>
+          <button class="fb" onclick="setApplyRole(this,'Editor')">Editor</button>
+          <button class="fb" onclick="setApplyRole(this,'Team Lead')">Team Lead</button>
         </div>
-        <div class="fg"><label class="lbl">LinkedIn Profile (optional)</label><input class="fi" id="ap-linkedin" type="url" placeholder="https://linkedin.com/in/yourname"></div>
-        <div class="fg"><label class="lbl">Why do you want to join Envision? *</label><textarea class="fi" id="ap-why" style="min-height:120px" placeholder="Tell us what draws you to Envision, what you hope to gain, and what you can bring to the team..."></textarea></div>
-        <div class="fg"><label class="lbl">Relevant Experience</label><textarea class="fi" id="ap-exp" style="min-height:90px" placeholder="Any relevant coursework, writing, research projects, societies, or work experience — no prior professional experience required."></textarea></div>
-        <div class="fg" id="ap-motiv-wrap" style="display:none"><label class="lbl">Letter of Motivation * (required for Board)</label><textarea class="fi" id="ap-motiv" style="min-height:150px" placeholder="As a Team Lead applicant, describe your vision for leading your chosen team, how you would develop members, and what you would bring to Envision&#39;s direction..."></textarea></div>
-        <div style="margin-top:1.5rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
-          <button class="btn-gold" onclick="submitApp()">Submit Application</button>
-          <span style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)">We respond within 5&ndash;7 days</span>
+      </div>
+      <!-- Message template -->
+      <div style="background:var(--surface);border:1px solid var(--border);padding:2rem;margin-bottom:1.5rem">
+        <p style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">Message Template &mdash; copy and send via LinkedIn</p>
+        <p id="apply-msg-text" style="font-size:.88rem;color:var(--text);line-height:1.85;white-space:pre-wrap"></p>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+        <button class="btn-outline" onclick="copyApplyMsg()" id="apply-copy-btn" style="display:inline-flex;align-items:center;gap:.5rem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Message
+        </button>
+        <a class="btn-gold" href="https://www.linkedin.com/company/envisionfoundation/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.6rem;text-decoration:none">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          Send via LinkedIn
+        </a>
+        <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted)">Copy message first, then click Follow &rarr; Message on our LinkedIn page</span>
+      </div>
+      <!-- Process steps -->
+      <div style="margin-top:4rem;border-top:1px solid var(--border);padding-top:3rem">
+        <p class="section-tag">What happens next</p>
+        <div class="proc-strip" style="margin-top:2rem">
+          <div class="ps"><span class="ps-n">1</span><p class="ps-t">Send Message</p><p class="ps-d">Copy the template and message us on LinkedIn.</p></div>
+          <div class="ps"><span class="ps-n">2</span><p class="ps-t">Intro Call</p><p class="ps-d">A short informal chat about your background.</p></div>
+          <div class="ps"><span class="ps-n">3</span><p class="ps-t">Decision</p><p class="ps-d">We assess your fit within 5&ndash;7 days.</p></div>
+          <div class="ps"><span class="ps-n">4</span><p class="ps-t">Onboarding</p><p class="ps-d">Access to Slack and your new team.</p></div>
+          <div class="ps"><span class="ps-n">5</span><p class="ps-t">Publish</p><p class="ps-d">Collaborate and publish your first report.</p></div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
   <footer><span class="footer-brand">EN<em>V</em>ISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
@@ -1456,37 +1468,38 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
 
   <div class="divider"></div>
 
-  <!-- CONTACT FORM -->
+  <!-- CONTACT -->
   <section class="s-pad" id="partner-contact">
     <div class="rv" style="text-align:center;max-width:600px;margin:0 auto">
       <p class="section-tag" style="justify-content:center">Get in Touch</p>
       <h2 class="section-title" style="max-width:100%;text-align:center">Start a<em> conversation</em></h2>
-      <p style="color:var(--muted);font-size:.88rem;line-height:1.8;margin-top:.8rem">Tell us about your organisation and what you are looking to achieve. Our partnerships team will be in touch within 48 hours.</p>
+      <p style="color:var(--muted);font-size:.88rem;line-height:1.8;margin-top:.8rem">Copy the message template below and send it to us directly via LinkedIn. Our partnerships team responds within 48 hours.</p>
     </div>
     <div class="partner-form-wrap rv">
-      <div class="form-row">
-        <div class="fg"><label class="lbl">Organisation *</label><input class="fi" id="pt-org" type="text" placeholder="Company or institution name"></div>
-        <div class="fg"><label class="lbl">Contact Name *</label><input class="fi" id="pt-name" type="text" placeholder="Your full name"></div>
-      </div>
-      <div class="form-row">
-        <div class="fg"><label class="lbl">Email *</label><input class="fi" id="pt-email" type="email" placeholder="your@organisation.com"></div>
-        <div class="fg"><label class="lbl">Role / Title</label><input class="fi" id="pt-role" type="text" placeholder="e.g. Head of Research"></div>
-      </div>
-      <div class="fg">
-        <label class="lbl">Areas of Interest</label>
-        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem" id="pt-interests">
-          <button class="fb" onclick="toggleInterest(this)">Technology &amp; AI</button>
-          <button class="fb" onclick="toggleInterest(this)">Venture Capital</button>
-          <button class="fb" onclick="toggleInterest(this)">Global Markets</button>
-          <button class="fb" onclick="toggleInterest(this)">Corporate Strategy</button>
-          <button class="fb" onclick="toggleInterest(this)">ESG &amp; Sustainability</button>
-          <button class="fb" onclick="toggleInterest(this)">Custom Research</button>
-        </div>
-      </div>
-      <div class="fg"><label class="lbl">Message *</label><textarea class="fi" id="pt-msg" style="min-height:120px" placeholder="Tell us about your research needs, partnership goals, or any questions you have..."></textarea></div>
-      <div style="display:flex;gap:1rem;margin-top:1.5rem;align-items:center;flex-wrap:wrap">
-        <button class="btn-gold" onclick="submitPartnerEnquiry()">Send Enquiry</button>
-        <span id="pt-status" style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)"></span>
+      <p style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">Message Template &mdash; copy and send via LinkedIn</p>
+      <p style="font-size:.88rem;color:var(--text);line-height:1.85;white-space:pre-wrap;background:var(--bg);border:1px solid var(--border);padding:1.5rem;margin-bottom:1.5rem" id="partner-msg-text">Hi Envision team,
+
+I'm reaching out regarding a potential partnership with Envision Reports.
+
+Organisation: [Your organisation name]
+Role / Title: [Your role]
+Areas of interest: [e.g. Custom Research, Market Intelligence, Co-Branded Publication]
+
+[Brief description of what you're looking to achieve and how you think Envision can help]
+
+Looking forward to connecting.
+
+[Your name]</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+        <button class="btn-outline" onclick="copyPartnerMsg()" style="display:inline-flex;align-items:center;gap:.5rem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Message
+        </button>
+        <a class="btn-gold" href="https://www.linkedin.com/company/envisionfoundation/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.6rem;text-decoration:none">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          Message us on LinkedIn
+        </a>
+        <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted)">Copy first, then click Follow &rarr; Message on our page</span>
       </div>
     </div>
   </section>
@@ -1531,11 +1544,11 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
 })();
 var TLABELS={tech:'Technology & Innovation',vc:'Venture Capital & PE',markets:'Global Markets',advisory:'Corporate Advisory',perspectives:'Perspectives & Culture'};
 var TEAMS={
-  tech:{title:'Technology &amp; <em>Innovation</em>',desc:'Deep-dives into emerging technologies, AI disruption, and the startup ecosystem shaping our collective future.',focus:['Artificial Intelligence & Machine Learning','Emerging Technology Ecosystems','Startup & Venture Landscape','Digital Transformation','Sustainability in Tech'],reports:['Claude AI & Coworking (Jan 2026)','@Grok: AI Accuracy (Jan 2026)','Future of Work: Generative AI (Dec 2023)','Augmented Reality Systems (Aug 2023)']},
-  vc:{title:'Venture Capital &amp; <em>Private Equity</em>',desc:'Analysis of deal flow, fund performance, and investment theses across global venture and private equity markets.',focus:['Fund Performance Analysis','Deal Flow & Term Sheets','LBO & Growth Equity','Emerging Market Opportunities','Portfolio Company Strategy'],reports:["Wyoming's Stablecoins (Oct 2024)",'Offshore Financial Centres (Sep 2023)','Startup Valuation Frameworks']},
-  markets:{title:'Global <em>Markets</em>',desc:'Macro-economic research and geopolitical analysis influencing capital flows and policy decisions worldwide.',focus:['Macroeconomic Policy Analysis','Geopolitical Risk Assessment','Trade & Supply Chain Dynamics','Emerging Market Dynamics','Central Bank Policy'],reports:['Nitrogen Emissions: Netherlands (Oct 2024)',"Japan's Silent Crisis (Sep 2023)",'Global Trade Rebalancing']},
-  advisory:{title:'Corporate <em>Advisory</em>',desc:'Strategic and operational insights for startups and established firms seeking growth, efficiency, or transformation.',focus:['Strategic Planning & Roadmapping','Market Entry Strategies','Operational Efficiency','Change Management','Sustainability & ESG'],reports:['Rise of Padel (Feb 2026)','Sustainable Packaging (Sep 2024)','Go-to-Market Strategies']},
-  perspectives:{title:'Perspectives &amp; <em>Culture</em>',desc:'Narrative-driven essays, cultural commentary, and opinion pieces that explore the human side of business, society, and ideas — beyond the spreadsheet.',focus:['Cultural & Societal Trends','Opinion & Commentary','Human Stories in Business','Sport, Lifestyle & Identity','Creative Non-Fiction'],reports:['The Rise of Padel Culture (Feb 2026)','The Loneliness Economy (2026)','Gen Z and the Meaning of Work (2026)']}
+  tech:{title:'Technology &amp; <em>Innovation</em>',desc:'Deep-dives into emerging technologies, AI disruption, and the startup ecosystem shaping our collective future.',focus:['Artificial Intelligence & Machine Learning','Emerging Technology Ecosystems','Startup & Venture Landscape','Digital Transformation','Sustainability in Tech']},
+  vc:{title:'Venture Capital &amp; <em>Private Equity</em>',desc:'Analysis of deal flow, fund performance, and investment theses across global venture and private equity markets.',focus:['Fund Performance Analysis','Deal Flow & Term Sheets','LBO & Growth Equity','Emerging Market Opportunities','Portfolio Company Strategy']},
+  markets:{title:'Global <em>Markets</em>',desc:'Macro-economic research and geopolitical analysis influencing capital flows and policy decisions worldwide.',focus:['Macroeconomic Policy Analysis','Geopolitical Risk Assessment','Trade & Supply Chain Dynamics','Emerging Market Dynamics','Central Bank Policy']},
+  advisory:{title:'Corporate <em>Advisory</em>',desc:'Strategic and operational insights for startups and established firms seeking growth, efficiency, or transformation.',focus:['Strategic Planning & Roadmapping','Market Entry Strategies','Operational Efficiency','Change Management','Sustainability & ESG']},
+  perspectives:{title:'Perspectives &amp; <em>Culture</em>',desc:'Narrative-driven essays, cultural commentary, and opinion pieces that explore the human side of business, society, and ideas — beyond the spreadsheet.',focus:['Cultural & Societal Trends','Opinion & Commentary','Human Stories in Business','Sport, Lifestyle & Identity','Creative Non-Fiction']}
 };
 // ── Supabase config ──────────────────────────────────────
 var SB_URL='https://uuyuxurhyoinmtzjqapr.supabase.co';
@@ -1683,7 +1696,21 @@ function goPage(name,sub){
     document.getElementById('team-title').innerHTML=t.title;
     document.getElementById('team-desc').textContent=t.desc;
     document.getElementById('team-focus').innerHTML=t.focus.map(function(f){return '<li>'+f+'</li>';}).join('');
-    document.getElementById('team-reports').innerHTML=t.reports.map(function(r){return '<li>'+r+'</li>';}).join('');
+    // Pull live articles for this team from Supabase ARTS
+    var teamArts=ARTS.filter(function(a){return a.team===sub;})
+      .sort(function(a,b){return a.date<b.date?1:-1;})
+      .slice(0,4);
+    var reportsEl=document.getElementById('team-reports');
+    if(reportsEl){
+      reportsEl.innerHTML=teamArts.length
+        ? teamArts.map(function(a){
+            return '<li style="cursor:pointer;color:var(--text)" onclick="openReader('+JSON.stringify(a.id)+')">'
+              +a.title
+              +'<span style="font-family:\'DM Mono\',monospace;font-size:.55rem;color:var(--gold);margin-left:.5rem">'+a.date+'</span>'
+              +'</li>';
+          }).join('')
+        : '<li style="color:var(--muted2)">No publications yet.</li>';
+    }
   }
   if(name==='articles')renderAllArts();
   if(name==='newsletter'){renderNlPosts();triggerReveals(document.getElementById('page-newsletter'));}
@@ -1932,6 +1959,10 @@ function editArt(id){
   document.getElementById('na-type').value=a.type||'report';
   document.getElementById('na-team').value=a.team||'';
   document.getElementById('na-author').value=a.author||'';
+  var dateEl=document.getElementById('na-date');
+  if(dateEl&&a.date){
+    try{var d=new Date(a.date);if(!isNaN(d))dateEl.value=d.toISOString().split('T')[0];}catch(e){}
+  }
   document.getElementById('na-pdf').value=a.pdfUrl||'';
   document.getElementById('na-excerpt').value=a.excerpt||'';
   document.getElementById('na-body').value=a.body||'';
@@ -1973,13 +2004,15 @@ async function publishArticle(){
   var excerpt=document.getElementById('na-excerpt').value.trim();
   var body=document.getElementById('na-body').value.trim();
   var pdfUrl=document.getElementById('na-pdf')?document.getElementById('na-pdf').value.trim():'';
+  var dateInput=document.getElementById('na-date');
+  var pubDate=dateInput&&dateInput.value?new Date(dateInput.value).toISOString():new Date().toISOString();
   var stEl=document.getElementById('na-status');
   if(!title||!team||!author||!body){if(stEl)stEl.textContent='Please fill in all required fields.';return;}
   var imgData=document.getElementById('na-img-data')?document.getElementById('na-img-data').value:'';
   if(stEl)stEl.textContent='Saving...';
   if(EDIT_ID){
     var row={title:title,team:team,author:author,type:atype,pdf_url:pdfUrl,
-             excerpt:excerpt||title,body:body};
+             excerpt:excerpt||title,body:body,published_at:pubDate};
     if(imgData)row.image_url=imgData;
     var updated=await sbUpdate('articles',EDIT_ID,row);
     if(updated){
@@ -1995,7 +2028,7 @@ async function publishArticle(){
   } else {
     var newId='a'+Date.now();
     var row={id:newId,title:title,team:team,author:author,type:atype,
-             pdf_url:pdfUrl,image_url:imgData,excerpt:excerpt||title,body:body,featured:false};
+             pdf_url:pdfUrl,image_url:imgData,excerpt:excerpt||title,body:body,featured:false,published_at:pubDate};
     var inserted=await sbInsert('articles',row);
     if(inserted){
       ARTS.unshift(rowToArt(inserted));
@@ -2027,7 +2060,7 @@ function clearAdmImg(){
   var prev=document.getElementById('na-img-preview');if(prev)prev.style.display='none';
 }
 function clearArtForm(){
-  ['na-title','na-author','na-excerpt','na-body','na-pdf'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['na-title','na-author','na-excerpt','na-body','na-pdf','na-date'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('na-team').value='';
   document.getElementById('na-type').value='report';
   clearAdmImg();
@@ -2618,6 +2651,44 @@ function delPartnerEnq(id){
 })();
 // ── END LOADER ───────────────────────────────────────────
 
+// ── Apply page role selector & message template ──────────
+var APPLY_TEMPLATES={
+  'Analyst':'Hi Envision team,\n\nI am reaching out to apply for the Analyst role at Envision Reports.\n\nA little about me:\n- Name: [Your full name]\n- University: [Your university]\n- Field of study: [Your field]\n- Preferred team: [Technology / VC / Markets / Advisory / Perspectives]\n\nWhy I want to join Envision:\n[Tell us what draws you to Envision and what you hope to contribute]\n\nRelevant experience:\n[Any writing, research, coursework, or extracurriculars — no professional experience required]\n\nMy LinkedIn: [Your LinkedIn URL]\n\nLooking forward to hearing from you.\n\n[Your name]',
+  'Editor':'Hi Envision team,\n\nI am reaching out to apply for the Editor role at Envision Reports.\n\nA little about me:\n- Name: [Your full name]\n- University: [Your university]\n- Field of study: [Your field]\n\nWhy I want to join Envision as an Editor:\n[Tell us what draws you to editorial work and what you hope to contribute]\n\nRelevant experience:\n[Any editing, writing, journalism, or communications experience — academic or otherwise]\n\nMy LinkedIn: [Your LinkedIn URL]\n\nLooking forward to hearing from you.\n\n[Your name]',
+  'Team Lead':'Hi Envision team,\n\nI am reaching out to apply for the Team Lead role at Envision Reports.\n\nA little about me:\n- Name: [Your full name]\n- University: [Your university]\n- Field of study: [Your field]\n- Team I want to lead: [Technology / VC / Markets / Advisory / Perspectives]\n\nWhy I want to be a Team Lead at Envision:\n[Describe your vision for leading your chosen team and what you would bring to Envision]\n\nLetter of motivation:\n[As Team Lead applicants are required to submit a letter — write a short paragraph on your leadership approach, how you would develop team members, and what direction you would take the team]\n\nMy LinkedIn: [Your LinkedIn URL]\n\nLooking forward to hearing from you.\n\n[Your name]'
+};
+var currentApplyRole='Analyst';
+function setApplyRole(btn,role){
+  document.querySelectorAll('#page-apply .fb').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  currentApplyRole=role;
+  var el=document.getElementById('apply-msg-text');
+  if(el)el.textContent=APPLY_TEMPLATES[role]||APPLY_TEMPLATES['Analyst'];
+  var copyBtn=document.getElementById('apply-copy-btn');
+  if(copyBtn)copyBtn.textContent='Copy Message';
+}
+function copyApplyMsg(){
+  var text=APPLY_TEMPLATES[currentApplyRole]||'';
+  navigator.clipboard.writeText(text).then(function(){
+    var btn=document.getElementById('apply-copy-btn');
+    if(btn){btn.innerHTML='&#x2713; Copied!';setTimeout(function(){btn.innerHTML='<svg width=\'13\' height=\'13\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\'/></svg> Copy Message';},2000);}
+    showToast('Copied!','Now open LinkedIn and paste into a message to Envision.');
+  }).catch(function(){showToast('Copy failed','Please select and copy the text manually.');});
+}
+function copyPartnerMsg(){
+  var el=document.getElementById('partner-msg-text');
+  if(!el)return;
+  navigator.clipboard.writeText(el.textContent).then(function(){
+    showToast('Copied!','Now open LinkedIn and paste into a message to Envision.');
+  }).catch(function(){showToast('Copy failed','Please select and copy the text manually.');});
+}
+// Init apply page message on load
+(function(){
+  var el=document.getElementById('apply-msg-text');
+  if(el)el.textContent=APPLY_TEMPLATES['Analyst'];
+})();
+// ── End Apply / Partner LinkedIn flow ────────────────────
+
 function buildTicker(){
   var el=document.getElementById('ticker-inner');if(!el)return;
   var items=ARTS.slice().sort(function(a,b){return b.id>a.id?-1:1;});
@@ -2758,13 +2829,13 @@ function renderPerspectivesArts(){
     </div>
     <div class="mob-nav-sub" id="mob-involve-sub">
       <div class="mob-nav-subitem" onclick="mobGo('contributors')">Contributor Roles<span style="color:var(--gold)">&#x203A;</span></div>
-      <div class="mob-nav-subitem" onclick="mobGo('apply')">Apply Now<span style="color:var(--gold)">&#x203A;</span></div>
+      <div class="mob-nav-subitem" onclick="mobGo('contributors')">Apply Now<span style="color:var(--gold)">&#x203A;</span></div>
       <div class="mob-nav-subitem" onclick="mobGo('partnership')">Partnership<span style="color:var(--gold)">&#x203A;</span></div>
       <div class="mob-nav-subitem" onclick="mobGo('network')">The Network<span style="color:var(--gold)">&#x203A;</span></div>
     </div>
   </div>
   <div class="mob-overlay-foot">
-    <button class="mob-overlay-cta" onclick="mobGo('apply')">Apply Now</button>
+    <button class="mob-overlay-cta" onclick="mobGo('contributors')">Apply Now</button>
   </div>
 </div>
 <script>
