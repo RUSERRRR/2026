@@ -1665,6 +1665,19 @@ async function loadFromSupabase(){
   try{
     var rows=await sbSelect('articles','published_at.desc');
     ARTS=rows.map(rowToArt);
+    // Update the Reports counter with the real count
+    var reportCountEl=document.querySelector('.hi-stat-n.counter[data-t]');
+    // Find specifically the Reports counter by its sibling label
+    document.querySelectorAll('.hi-stat').forEach(function(stat){
+      if(stat.querySelector('.hi-stat-l')&&stat.querySelector('.hi-stat-l').textContent==='Reports'){
+        var numEl=stat.querySelector('.hi-stat-n');
+        if(numEl){
+          numEl.setAttribute('data-t',ARTS.length);
+          delete numEl.dataset.done; // allow re-animation
+          numEl.textContent='0';
+        }
+      }
+    });
   }catch(e){console.error('Failed to load articles:',e);}
   try{
     var nlrows=await sbSelect('nl_posts','published_at.desc');
@@ -1674,6 +1687,8 @@ async function loadFromSupabase(){
   renderHomeArts();
   renderPerspectivesArts();
   buildTicker();
+  // Re-run counters so Reports shows live count
+  setTimeout(startCounters, 100);
 }
 // Run immediately
 loadFromSupabase();
