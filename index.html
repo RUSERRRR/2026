@@ -1518,10 +1518,10 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
 <script>
 // ── Clear old seeded data on version change ──────────────
 (function(){
-  var V='v3-empty';
+  var V='v4-prod';
   try{
     if(localStorage.getItem('_ev_v')!==V){
-      ['_ev_arts','_ev_subs','_ev_apps','_ev_nlposts','_ev_partnereq'].forEach(function(k){localStorage.removeItem(k);});
+      ['_ev_arts','_ev_subs','_ev_apps','_ev_nlposts','_ev_partnereq','ev_arts','ev_subs','ev_apps','ev_nlposts','ev_partnereq'].forEach(function(k){localStorage.removeItem(k);});
       // Also try the key patterns used by ld/sv helpers
       var keys=Object.keys(localStorage);
       keys.forEach(function(k){if(k.indexOf('ev')==0||k.indexOf('envisio')==0)localStorage.removeItem(k);});
@@ -1537,17 +1537,120 @@ var TEAMS={
   advisory:{title:'Corporate <em>Advisory</em>',desc:'Strategic and operational insights for startups and established firms seeking growth, efficiency, or transformation.',focus:['Strategic Planning & Roadmapping','Market Entry Strategies','Operational Efficiency','Change Management','Sustainability & ESG'],reports:['Rise of Padel (Feb 2026)','Sustainable Packaging (Sep 2024)','Go-to-Market Strategies']},
   perspectives:{title:'Perspectives &amp; <em>Culture</em>',desc:'Narrative-driven essays, cultural commentary, and opinion pieces that explore the human side of business, society, and ideas — beyond the spreadsheet.',focus:['Cultural & Societal Trends','Opinion & Commentary','Human Stories in Business','Sport, Lifestyle & Identity','Creative Non-Fiction'],reports:['The Rise of Padel Culture (Feb 2026)','The Loneliness Economy (2026)','Gen Z and the Meaning of Work (2026)']}
 };
-// ── Core storage helpers ─────────────────────────────────
+// ── Supabase config ──────────────────────────────────────
+var SB_URL='https://uuyuxurhyoinmtzjqapr.supabase.co';
+var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1eXV4dXJoeW9pbm10empxYXByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1ODUzNTYsImV4cCI6MjA5MjE2MTM1Nn0.8aot_MNN967qD7xp5eDJBSntZ-NSN3_-nIC2moFJE2o';
+function sbHeaders(){return{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'};}
+
+// ── Supabase helpers ──────────────────────────────────────
+async function sbSelect(table,order){
+  var url=SB_URL+'/rest/v1/'+table+'?select=*'+(order?'&order='+order:'');
+  var r=await fetch(url,{headers:sbHeaders()});
+  if(!r.ok)return[];
+  return await r.json();
+}
+async function sbInsert(table,row){
+  var r=await fetch(SB_URL+'/rest/v1/'+table,{method:'POST',headers:sbHeaders(),body:JSON.stringify(row)});
+  if(!r.ok){var e=await r.text();console.error('sbInsert error:',e);return null;}
+  var d=await r.json();return Array.isArray(d)?d[0]:d;
+}
+async function sbUpdate(table,id,row){
+  var r=await fetch(SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:sbHeaders(),body:JSON.stringify(row)});
+  if(!r.ok){var e=await r.text();console.error('sbUpdate error:',e);return null;}
+  var d=await r.json();return Array.isArray(d)?d[0]:d;
+}
+async function sbDelete(table,id){
+  var r=await fetch(SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:sbHeaders()});
+  return r.ok;
+}
+
+// ── In-memory arrays (loaded from Supabase on init) ───────
+var ARTS=[];
+var SUBS=[];
+var APPS=[];
+// localStorage only for non-shared data (applications, subs stay local for now)
 function sv(k,v){try{localStorage.setItem('ev_'+k,JSON.stringify(v));}catch(e){}}
 function ld(k,def){try{var v=localStorage.getItem('ev_'+k);return v?JSON.parse(v):def;}catch(e){return def;}}
+function saveAll(){sv('subs',SUBS);sv('apps',APPS);} // arts now in Supabase only
+
+// ── Map Supabase row → site article format ────────────────
+function rowToArt(row){
+  return {
+    id:     row.id,
+    title:  row.title||'',
+    team:   row.team||'',
+    author: row.author||'',
+    type:   row.type||'report',
+    excerpt:row.excerpt||'',
+    body:   row.body||'',
+    pdfUrl: row.pdf_url||'',
+    imageUrl:row.image_url||'',
+    featured:!!row.featured,
+    date:   row.published_at?new Date(row.published_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'',
+  };
+}
+function artToRow(a){
+  return {
+    id:         a.id,
+    title:      a.title,
+    team:       a.team,
+    author:     a.author,
+    type:       a.type||'report',
+    excerpt:    a.excerpt||'',
+    body:       a.body||'',
+    pdf_url:    a.pdfUrl||'',
+    image_url:  a.imageUrl||'',
+    featured:   !!a.featured,
+  };
+}
+
+// ── Map Supabase row → site NL post format ────────────────
+function rowToNl(row){
+  return {
+    id:      row.id,
+    title:   row.title||'',
+    cat:     row.cat||'update',
+    author:  row.author||'',
+    excerpt: row.excerpt||'',
+    body:    row.body||'',
+    imageUrl:row.image_url||'',
+    link:    row.link||'',
+    featured:!!row.featured,
+    date:    row.published_at?new Date(row.published_at).toLocaleDateString('en-GB',{month:'short',year:'numeric'}):'',
+  };
+}
+function nlToRow(p){
+  return {
+    id:        p.id,
+    title:     p.title,
+    cat:       p.cat||'update',
+    author:    p.author||'',
+    excerpt:   p.excerpt||'',
+    body:      p.body||'',
+    image_url: p.imageUrl||'',
+    link:      p.link||'',
+    featured:  !!p.featured,
+  };
+}
+
+// ── Load all data from Supabase on init ───────────────────
+async function loadFromSupabase(){
+  try{
+    var rows=await sbSelect('articles','published_at.desc');
+    ARTS=rows.map(rowToArt);
+  }catch(e){console.error('Failed to load articles:',e);}
+  try{
+    var nlrows=await sbSelect('nl_posts','published_at.desc');
+    NL_POSTS=nlrows.map(rowToNl);
+  }catch(e){console.error('Failed to load nl_posts:',e);}
+  // Re-render anything already on screen
+  renderHomeArts();
+  renderPerspectivesArts();
+  buildTicker();
+}
+// Run immediately
+loadFromSupabase();
 // ─────────────────────────────────────────────────────────
-
-var DEFAULT_ARTICLES=[];
-
-var ARTS=ld('arts',DEFAULT_ARTICLES);
-var SUBS=ld('subs',[]);
-var APPS=ld('apps',[]);
-function saveAll(){sv('arts',ARTS);sv('subs',SUBS);sv('apps',APPS);}
 function toggleDD(id){var el=document.getElementById(id);var was=el.classList.contains('open');closeAllDD();if(!was)el.classList.add('open');}
 function closeAllDD(){document.querySelectorAll('.dd').forEach(function(d){d.classList.remove('open');});}
 document.addEventListener('click',function(e){if(!e.target.closest('.dd'))closeAllDD();});
@@ -1766,17 +1869,29 @@ function refreshAdmin(){
   var apcEl=document.getElementById('adm-apc');if(apcEl)apcEl.textContent=APPS.length;
   var al=document.getElementById('adm-art-list');
   if(al)al.innerHTML=ARTS.length?ARTS.map(function(a){
-    return '<div class="ala"><div class="ala-info">'
-      +(a.imageUrl?'<img src="'+a.imageUrl+'" style="width:48px;height:36px;object-fit:cover;border:1px solid var(--border);margin-right:.8rem;float:left">':'')
+    var aid=a.id;
+    return '<div class="ala" data-aid="'+aid+'">'
+      +'<div class="ala-info">'
+      +(a.imageUrl?'<img src="'+a.imageUrl+'" style="width:48px;height:36px;object-fit:cover;border:1px solid var(--border);margin-right:.8rem;float:left">':''      )
       +'<div class="ala-title">'+a.title+(a.featured?'<span class="chip">Featured</span>':'')+'</div>'
-      +'<div class="ala-meta">'+tlabel(a.team)+' · '+(a.type==='report'?'Report':'Article')+' · '+a.date+'</div>'
+      +'<div class="ala-meta">'+tlabel(a.team)+' &middot; '+(a.type==='report'?'Report':'Article')+' &middot; '+a.date+'</div>'
       +'<div style="clear:both"></div></div>'
       +'<div class="ala-btns">'
-      +'<button class="ala-btn" onclick="editArt('+JSON.stringify(a.id)+')">Edit</button>'
-      +'<button class="ala-btn" onclick="toggleFeat('+JSON.stringify(a.id)+')">'+(a.featured?'Unfeature':'Feature')+'</button>'
-      +'<button class="ala-btn del" onclick="delArt('+JSON.stringify(a.id)+')">Delete</button>'
+      +'<button class="ala-btn" data-action="edit" data-id="'+aid+'">Edit</button>'
+      +'<button class="ala-btn" data-action="feat" data-id="'+aid+'">'+(a.featured?'Unfeature':'Feature')+'</button>'
+      +'<button class="ala-btn del" data-action="del" data-id="'+aid+'">Delete</button>'
       +'</div></div>';
   }).join(''):'<div class="ala"><div class="ala-info" style="color:var(--muted)">No articles yet. Use + New Article to publish your first.</div></div>';
+  // Event delegation for article buttons
+  if(al)al.onclick=function(e){
+    var btn=e.target.closest('[data-action]');
+    if(!btn)return;
+    var id=btn.getAttribute('data-id');
+    var action=btn.getAttribute('data-action');
+    if(action==='edit')editArt(id);
+    else if(action==='feat')toggleFeat(id);
+    else if(action==='del')delArt(id);
+  };
   refreshAdminNl();
   refreshAdminPartner();
   var apl=document.getElementById('app-list-el');
@@ -1836,7 +1951,7 @@ function togglePdfField(){
   var wrap=document.getElementById('na-pdf-wrap');
   if(wrap)wrap.style.display=(t==='report')?'':'none';
 }
-function publishArticle(){
+async function publishArticle(){
   var title=document.getElementById('na-title').value.trim();
   var team=document.getElementById('na-team').value;
   var author=document.getElementById('na-author').value.trim();
@@ -1844,29 +1959,39 @@ function publishArticle(){
   var excerpt=document.getElementById('na-excerpt').value.trim();
   var body=document.getElementById('na-body').value.trim();
   var pdfUrl=document.getElementById('na-pdf')?document.getElementById('na-pdf').value.trim():'';
-  if(!title||!team||!author||!body){document.getElementById('na-status').textContent='Please fill in all required fields.';return;}
+  var stEl=document.getElementById('na-status');
+  if(!title||!team||!author||!body){if(stEl)stEl.textContent='Please fill in all required fields.';return;}
   var imgData=document.getElementById('na-img-data')?document.getElementById('na-img-data').value:'';
+  if(stEl)stEl.textContent='Saving...';
   if(EDIT_ID){
-    // Edit mode — update existing article
-    var idx=ARTS.findIndex(function(x){return x.id===EDIT_ID;});
-    if(idx>-1){
-      ARTS[idx].title=title;ARTS[idx].team=team;ARTS[idx].author=author;
-      ARTS[idx].type=atype;ARTS[idx].pdfUrl=pdfUrl;ARTS[idx].excerpt=excerpt||title;
-      ARTS[idx].body=body;
-      if(imgData)ARTS[idx].imageUrl=imgData;
+    var row={title:title,team:team,author:author,type:atype,pdf_url:pdfUrl,
+             excerpt:excerpt||title,body:body};
+    if(imgData)row.image_url=imgData;
+    var updated=await sbUpdate('articles',EDIT_ID,row);
+    if(updated){
+      var idx=ARTS.findIndex(function(x){return x.id===EDIT_ID;});
+      if(idx>-1)ARTS[idx]=rowToArt(Object.assign({id:EDIT_ID,published_at:new Date().toISOString()},row));
+      if(stEl)stEl.textContent='Updated!';
+      setTimeout(function(){if(stEl)stEl.textContent='';},3000);
+      clearArtForm();resetEditMode();refreshAdmin();
+      showToast('Updated!','"'+title+'" has been updated.');
+    } else {
+      if(stEl)stEl.textContent='Error saving. Check console.';
     }
-    saveAll();clearArtForm();resetEditMode();
-    document.getElementById('na-status').textContent='Updated successfully!';
-    setTimeout(function(){document.getElementById('na-status').textContent='';},3000);
-    refreshAdmin();showToast('Updated!','"'+title+'" has been updated.');
   } else {
-    ARTS.unshift({id:'a'+Date.now(),title:title,team:team,author:author,type:atype,pdfUrl:pdfUrl,imageUrl:imgData,
-      date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
-      excerpt:excerpt||title,body:body,featured:false});
-    saveAll();clearArtForm();
-    document.getElementById('na-status').textContent='Published successfully!';
-    setTimeout(function(){document.getElementById('na-status').textContent='';},3000);
-    refreshAdmin();showToast('Published!','"'+title+'" is now live on the site.');
+    var newId='a'+Date.now();
+    var row={id:newId,title:title,team:team,author:author,type:atype,
+             pdf_url:pdfUrl,image_url:imgData,excerpt:excerpt||title,body:body,featured:false};
+    var inserted=await sbInsert('articles',row);
+    if(inserted){
+      ARTS.unshift(rowToArt(inserted));
+      if(stEl)stEl.textContent='Published!';
+      setTimeout(function(){if(stEl)stEl.textContent='';},3000);
+      clearArtForm();refreshAdmin();
+      showToast('Published!','"'+title+'" is now live on the site.');
+    } else {
+      if(stEl)stEl.textContent='Error publishing. Check console.';
+    }
   }
 }
 function previewAdmImg(input){
@@ -1895,8 +2020,19 @@ function clearArtForm(){
   togglePdfField();
   resetEditMode();
 }
-function toggleFeat(id){ARTS.forEach(function(a){if(a.id===id)a.featured=!a.featured;});saveAll();refreshAdmin();}
-function delArt(id){if(!confirm('Delete this article?'))return;ARTS=ARTS.filter(function(a){return a.id!==id;});saveAll();refreshAdmin();showToast('Deleted','Article has been removed.');}
+async function toggleFeat(id){
+  var a=ARTS.find(function(x){return x.id===id;});if(!a)return;
+  var newFeat=!a.featured;
+  await sbUpdate('articles',id,{featured:newFeat});
+  a.featured=newFeat;
+  refreshAdmin();
+}
+async function delArt(id){
+  if(!confirm('Delete this article?'))return;
+  var ok=await sbDelete('articles',id);
+  if(ok){ARTS=ARTS.filter(function(a){return a.id!==id;});refreshAdmin();showToast('Deleted','Article has been removed.');}
+  else{showToast('Error','Could not delete. Try again.');}
+}
 function delApp(id){if(!confirm('Delete this application?'))return;APPS=APPS.filter(function(a){return a.id!==id;});saveAll();refreshAdmin();}
 function viewApp(id){
   var a=APPS.find(function(x){return x.id===id;});if(!a)return;
@@ -2170,8 +2306,8 @@ setTimeout(initAccordion,100);
 // ═══════════════════════════════════════════════════════════
 var DEFAULT_NL_POSTS=[];
 
-var NL_POSTS=ld('nlposts',DEFAULT_NL_POSTS);
-function saveNlPosts(){sv('nlposts',NL_POSTS);}
+var NL_POSTS=[]; // populated by loadFromSupabase()
+function saveNlPosts(){} // no-op: NL_POSTS now persisted in Supabase
 var NL_EDIT_ID=null;
 var NL_TAG_LABELS={partnership:'Partnership',update:'Update',announcement:'Announcement',milestone:'Milestone'};
 var NL_TAG_CLASSES={partnership:'nl-tag-partnership',update:'nl-tag-update',announcement:'nl-tag-announcement',milestone:'nl-tag-milestone'};
@@ -2262,7 +2398,7 @@ function clearNlForm(){
   var pb=document.querySelector('button[onclick="publishNlPost()"]');if(pb)pb.textContent='Publish Post';
   var st=document.getElementById('nlp-status');if(st)st.textContent='';
 }
-function publishNlPost(){
+async function publishNlPost(){
   var title=(document.getElementById('nlp-title').value||'').trim();
   var cat=document.getElementById('nlp-cat').value;
   var author=(document.getElementById('nlp-author').value||'').trim()||'Envision Team';
@@ -2272,18 +2408,31 @@ function publishNlPost(){
   var img=document.getElementById('nlp-img-data').value;
   var st=document.getElementById('nlp-status');
   if(!title||!excerpt||!body){if(st)st.textContent='Please fill all required fields.';return;}
-  var date=new Date().toLocaleDateString('en-GB',{month:'short',year:'numeric'});
+  if(st)st.textContent='Saving...';
   if(NL_EDIT_ID){
-    var idx=NL_POSTS.findIndex(function(x){return x.id===NL_EDIT_ID;});
-    if(idx>-1){var p=NL_POSTS[idx];p.title=title;p.cat=cat;p.author=author;p.excerpt=excerpt;p.body=body;p.link=link;if(img)p.imageUrl=img;}
-    saveNlPosts();clearNlForm();refreshAdminNl();
-    showToast('Updated!','"'+title+'" updated.');
+    var row={title:title,cat:cat,author:author,excerpt:excerpt,body:body,link:link};
+    if(img)row.image_url=img;
+    var updated=await sbUpdate('nl_posts',NL_EDIT_ID,row);
+    if(updated){
+      var idx=NL_POSTS.findIndex(function(x){return x.id===NL_EDIT_ID;});
+      if(idx>-1)NL_POSTS[idx]=rowToNl(Object.assign({id:NL_EDIT_ID,published_at:new Date().toISOString()},row));
+      clearNlForm();refreshAdminNl();
+      if(st)st.textContent='Updated!';
+      setTimeout(function(){if(st)st.textContent='';},3000);
+      showToast('Updated!','"'+title+'" updated.');
+    } else { if(st)st.textContent='Error saving.'; }
   } else {
-    NL_POSTS.unshift({id:'nl'+Date.now(),title:title,cat:cat,author:author,date:date,excerpt:excerpt,body:body,link:link,imageUrl:img,featured:false});
-    saveNlPosts();clearNlForm();refreshAdminNl();
-    showToast('Published!','"'+title+'" is now live.');
+    var newId='nl'+Date.now();
+    var row={id:newId,title:title,cat:cat,author:author,excerpt:excerpt,body:body,link:link,image_url:img||'',featured:false};
+    var inserted=await sbInsert('nl_posts',row);
+    if(inserted){
+      NL_POSTS.unshift(rowToNl(inserted));
+      clearNlForm();refreshAdminNl();
+      if(st)st.textContent='Published!';
+      setTimeout(function(){if(st)st.textContent='';},3000);
+      showToast('Published!','"'+title+'" is now live.');
+    } else { if(st)st.textContent='Error publishing.'; }
   }
-  if(st)setTimeout(function(){st.textContent='';},3000);
 }
 function editNlPost(id){
   var p=NL_POSTS.find(function(x){return x.id===id;});if(!p)return;
@@ -2305,29 +2454,42 @@ function editNlPost(id){
   var pb=document.querySelector('button[onclick="publishNlPost()"]');if(pb)pb.textContent='Save Changes';
   var st=document.getElementById('nlp-status');if(st)st.textContent='Editing: '+p.title.slice(0,40)+(p.title.length>40?'...':'');
 }
-function delNlPost(id){
+async function delNlPost(id){
   if(!confirm('Delete this post?'))return;
-  NL_POSTS=NL_POSTS.filter(function(x){return x.id!==id;});
-  saveNlPosts();refreshAdminNl();showToast('Deleted','Post removed.');
+  var ok=await sbDelete('nl_posts',id);
+  if(ok){NL_POSTS=NL_POSTS.filter(function(x){return x.id!==id;});refreshAdminNl();showToast('Deleted','Post removed.');}
+  else{showToast('Error','Could not delete.');}
 }
-function toggleNlFeat(id){
-  NL_POSTS.forEach(function(p){if(p.id===id)p.featured=!p.featured;});
-  saveNlPosts();refreshAdminNl();
+async function toggleNlFeat(id){
+  var p=NL_POSTS.find(function(x){return x.id===id;});if(!p)return;
+  var newFeat=!p.featured;
+  await sbUpdate('nl_posts',id,{featured:newFeat});
+  p.featured=newFeat;
+  refreshAdminNl();
 }
 function refreshAdminNl(){
   var el=document.getElementById('adm-nlpost-list');if(!el)return;
   el.innerHTML=NL_POSTS.length?NL_POSTS.map(function(p){
-    return '<div class="ala"><div class="ala-info">'
+    return '<div class="ala" data-nlid="'+p.id+'"><div class="ala-info">'
       +(p.imageUrl?'<img src="'+p.imageUrl+'" style="width:48px;height:36px;object-fit:cover;border:1px solid var(--border);margin-right:.8rem;float:left">':'')
       +'<div class="ala-title">'+p.title+(p.featured?'<span class="chip">Featured</span>':'')+'</div>'
       +'<div class="ala-meta">'+(NL_TAG_LABELS[p.cat]||p.cat).toUpperCase()+' &middot; '+p.date+'</div>'
       +'<div style="clear:both"></div></div>'
       +'<div class="ala-btns">'
-      +'<button class="ala-btn" onclick="editNlPost('+JSON.stringify(p.id)+')">Edit</button>'
-      +'<button class="ala-btn" onclick="toggleNlFeat('+JSON.stringify(p.id)+')">'+( p.featured?'Unfeature':'Feature')+'</button>'
-      +'<button class="ala-btn del" onclick="delNlPost('+JSON.stringify(p.id)+')">Delete</button>'
+      +'<button class="ala-btn" data-nl-action="edit" data-nl-id="'+p.id+'">Edit</button>'
+      +'<button class="ala-btn" data-nl-action="feat" data-nl-id="'+p.id+'">'+(p.featured?'Unfeature':'Feature')+'</button>'
+      +'<button class="ala-btn del" data-nl-action="del" data-nl-id="'+p.id+'">Delete</button>'
       +'</div></div>';
   }).join(''):'<div class="ala"><div class="ala-info" style="color:var(--muted)">No posts yet.</div></div>';
+  el.onclick=function(e){
+    var btn=e.target.closest('[data-nl-action]');
+    if(!btn)return;
+    var id=btn.getAttribute('data-nl-id');
+    var action=btn.getAttribute('data-nl-action');
+    if(action==='edit')editNlPost(id);
+    else if(action==='feat')toggleNlFeat(id);
+    else if(action==='del')delNlPost(id);
+  };
 }
 // ═══════════════════════════════════════════════════════════
 
@@ -2362,19 +2524,24 @@ function submitPartnerEnquiry(){
 function refreshAdminPartner(){
   var el=document.getElementById('adm-partner-list');if(!el)return;
   el.innerHTML=PARTNER_ENQUIRIES.length?PARTNER_ENQUIRIES.map(function(p){
-    return '<div class="ala"><div class="ala-info">'
+    return '<div class="ala" data-peid="'+p.id+'"><div class="ala-info">'
       +'<div class="ala-title">'+p.org+' &mdash; '+p.name+(p.status==='New'?'<span class="chip" style="border-color:#5de0a0;color:#5de0a0">New</span>':'')+'</div>'
       +'<div class="ala-meta">'+p.email+(p.role?' &middot; '+p.role:'')+(p.interests?' &middot; '+p.interests:'')+'</div>'
       +'<div class="ala-meta" style="margin-top:.3rem;font-style:italic;color:var(--muted)">'+p.msg.slice(0,100)+(p.msg.length>100?'...':'')+'</div>'
       +'</div>'
       +'<div class="ala-btns">'
-      +'<button class="ala-btn" onclick="markPartnerRead('+JSON.stringify(p.id)+')">'+( p.status==='New'?'Mark Read':'Unread')+'</button>'
-      +'<button class="ala-btn del" onclick="delPartnerEnq('+JSON.stringify(p.id)+')">Delete</button>'
+      +'<button class="ala-btn" data-pe-action="read" data-pe-id="'+p.id+'">'+(p.status==='New'?'Mark Read':'Unread')+'</button>'
+      +'<button class="ala-btn del" data-pe-action="del" data-pe-id="'+p.id+'">Delete</button>'
       +'</div></div>';
   }).join(''):'<div class="ala"><div class="ala-info" style="color:var(--muted)">No enquiries yet.</div></div>';
-  // Update badge count
-  var badge=document.getElementById('adm-peq-count');
-  if(badge)badge.textContent=PARTNER_ENQUIRIES.filter(function(p){return p.status==='New';}).length||'';
+  el.onclick=function(e){
+    var btn=e.target.closest('[data-pe-action]');
+    if(!btn)return;
+    var id=btn.getAttribute('data-pe-id');
+    var action=btn.getAttribute('data-pe-action');
+    if(action==='read')markPartnerRead(id);
+    else if(action==='del')delPartnerEnq(id);
+  };
 }
 function markPartnerRead(id){
   PARTNER_ENQUIRIES.forEach(function(p){if(p.id===id)p.status=(p.status==='New'?'Read':'New');});
