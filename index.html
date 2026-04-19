@@ -1550,18 +1550,32 @@ async function sbSelect(table,order){
   return await r.json();
 }
 async function sbInsert(table,row){
-  var r=await fetch(SB_URL+'/rest/v1/'+table,{method:'POST',headers:sbHeaders(),body:JSON.stringify(row)});
-  if(!r.ok){var e=await r.text();console.error('sbInsert error:',e);return null;}
-  var d=await r.json();return Array.isArray(d)?d[0]:d;
+  try{
+    var r=await fetch(SB_URL+'/rest/v1/'+table,{method:'POST',headers:sbHeaders(),body:JSON.stringify(row)});
+    var text=await r.text();
+    if(!r.ok){
+      var msg='Insert failed ('+r.status+'): '+text;
+      console.error(msg);
+      showToast('Supabase Error',r.status===401?'Unauthorised — check policies in Supabase dashboard':r.status===403?'Forbidden — add insert policy for anon role':text.slice(0,120));
+      return null;
+    }
+    return text?JSON.parse(text):null;
+  }catch(e){console.error('sbInsert exception:',e);showToast('Network Error',e.message);return null;}
 }
 async function sbUpdate(table,id,row){
-  var r=await fetch(SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:sbHeaders(),body:JSON.stringify(row)});
-  if(!r.ok){var e=await r.text();console.error('sbUpdate error:',e);return null;}
-  var d=await r.json();return Array.isArray(d)?d[0]:d;
+  try{
+    var r=await fetch(SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:sbHeaders(),body:JSON.stringify(row)});
+    var text=await r.text();
+    if(!r.ok){console.error('sbUpdate error ('+r.status+'):',text);showToast('Supabase Error',text.slice(0,120));return null;}
+    return text?JSON.parse(text):null;
+  }catch(e){console.error('sbUpdate exception:',e);showToast('Network Error',e.message);return null;}
 }
 async function sbDelete(table,id){
-  var r=await fetch(SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:sbHeaders()});
-  return r.ok;
+  try{
+    var r=await fetch(SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:sbHeaders()});
+    if(!r.ok){var text=await r.text();console.error('sbDelete error ('+r.status+'):',text);showToast('Supabase Error',text.slice(0,120));return false;}
+    return true;
+  }catch(e){console.error('sbDelete exception:',e);showToast('Network Error',e.message);return false;}
 }
 
 // ── In-memory arrays (loaded from Supabase on init) ───────
