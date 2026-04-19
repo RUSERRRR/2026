@@ -978,6 +978,7 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
       <button class="adm-tab" onclick="showAdmTab('nlposts',this)">Newsletter Posts</button>
       <button class="adm-tab" onclick="showAdmTab('nlnew',this)">+ New Post</button>
       <button class="adm-tab" onclick="showAdmTab('partner',this)">Partner Enquiries <span id="adm-peq-count" style="color:var(--gold)"></span></button>
+      <button class="adm-tab" onclick="showAdmTab('stats',this)">Site Stats</button>
     </div>
     <div class="adm-pane on" id="adm-art"><div class="adm-art-list" id="adm-art-list"></div></div>
     <div class="adm-pane" id="adm-new">
@@ -1055,6 +1056,34 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
     <div class="adm-pane" id="adm-partner">
       <p style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);margin-bottom:1.5rem">Partnership enquiries from the contact form</p>
       <div class="adm-art-list" id="adm-partner-list"></div>
+    </div>
+    <div class="adm-pane" id="adm-stats">
+      <p style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);margin-bottom:2rem">These numbers appear live on the homepage for all visitors. Reports updates automatically from published articles.</p>
+      <div style="display:flex;flex-direction:column;gap:1.5rem;max-width:400px">
+        <div class="fg">
+          <label class="lbl">Countries</label>
+          <div style="display:flex;gap:.8rem;align-items:center">
+            <input class="fi" id="stat-countries" type="number" min="0" style="width:120px" placeholder="11">
+            <button class="btn-gold" style="padding:.55rem 1.2rem;font-size:.7rem" onclick="saveStat('countries')">Save</button>
+            <span id="stat-countries-status" style="font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold)"></span>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="lbl">Student Members</label>
+          <div style="display:flex;gap:.8rem;align-items:center">
+            <input class="fi" id="stat-members" type="number" min="0" style="width:120px" placeholder="30">
+            <button class="btn-gold" style="padding:.55rem 1.2rem;font-size:.7rem" onclick="saveStat('members')">Save</button>
+            <span id="stat-members-status" style="font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold)"></span>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="lbl">Reports Published</label>
+          <div style="display:flex;gap:.8rem;align-items:center">
+            <input class="fi" id="stat-reports" type="number" min="0" style="width:120px" disabled placeholder="Auto">
+            <span style="font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted)">Auto — counts published articles</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1692,6 +1721,7 @@ async function loadFromSupabase(){
 }
 // Run immediately
 loadFromSupabase();
+loadSiteStats();
 // ─────────────────────────────────────────────────────────
 function toggleDD(id){var el=document.getElementById(id);var was=el.classList.contains('open');closeAllDD();if(!was)el.classList.add('open');}
 function closeAllDD(){document.querySelectorAll('.dd').forEach(function(d){d.classList.remove('open');});}
@@ -1918,6 +1948,7 @@ function showAdmTab(id,btn){
   document.querySelectorAll('.adm-tab').forEach(function(t){t.classList.remove('on');});
   document.querySelectorAll('.adm-pane').forEach(function(p){p.classList.remove('on');});
   btn.classList.add('on');document.getElementById('adm-'+id).classList.add('on');
+  if(id==='stats')loadStatsIntoAdmin();
 }
 function refreshAdmin(){
   var acEl=document.getElementById('adm-ac');if(acEl)acEl.textContent=ARTS.length;
@@ -2703,6 +2734,74 @@ function copyPartnerMsg(){
   if(el)el.textContent=APPLY_TEMPLATES['Analyst'];
 })();
 // ── End Apply / Partner LinkedIn flow ────────────────────
+
+// ── Site Stats ────────────────────────────────────────────
+var SITE_STATS={countries:11,members:30};
+
+async function loadSiteStats(){
+  try{
+    var rows=await sbSelect('site_stats','');
+    if(rows&&rows.length){
+      SITE_STATS.countries=rows[0].countries||11;
+      SITE_STATS.members=rows[0].members||30;
+    }
+  }catch(e){console.log('site_stats not yet created, using defaults');}
+  applyStatsToPage();
+}
+
+function applyStatsToPage(){
+  // Update Countries counter
+  document.querySelectorAll('.hi-stat').forEach(function(stat){
+    var lbl=stat.querySelector('.hi-stat-l');
+    var num=stat.querySelector('.hi-stat-n');
+    if(!lbl||!num)return;
+    if(lbl.textContent==='Countries'){
+      num.setAttribute('data-t',SITE_STATS.countries);
+      delete num.dataset.done;
+      num.textContent='0';
+    }
+    if(lbl.textContent==='Student Members'){
+      num.setAttribute('data-t',SITE_STATS.members);
+      delete num.dataset.done;
+      num.textContent='0';
+    }
+  });
+  setTimeout(startCounters,100);
+}
+
+async function saveStat(key){
+  var inputId=key==='countries'?'stat-countries':'stat-members';
+  var statusId=key==='countries'?'stat-countries-status':'stat-members-status';
+  var val=parseInt(document.getElementById(inputId).value)||0;
+  var statusEl=document.getElementById(statusId);
+  if(statusEl)statusEl.textContent='Saving...';
+  SITE_STATS[key]=val;
+  // Upsert into site_stats table
+  try{
+    var existing=await sbSelect('site_stats','');
+    if(existing&&existing.length){
+      await sbUpdate('site_stats','main',{countries:SITE_STATS.countries,members:SITE_STATS.members});
+    } else {
+      await sbInsert('site_stats',{id:'main',countries:SITE_STATS.countries,members:SITE_STATS.members});
+    }
+    if(statusEl){statusEl.textContent='Saved ✓';setTimeout(function(){statusEl.textContent='';},2000);}
+    applyStatsToPage();
+    showToast('Stats updated','Homepage counters now reflect the new values.');
+  }catch(e){
+    if(statusEl)statusEl.textContent='Error saving';
+    console.error('saveStat error:',e);
+  }
+}
+
+function loadStatsIntoAdmin(){
+  var cEl=document.getElementById('stat-countries');
+  var mEl=document.getElementById('stat-members');
+  var rEl=document.getElementById('stat-reports');
+  if(cEl)cEl.value=SITE_STATS.countries;
+  if(mEl)mEl.value=SITE_STATS.members;
+  if(rEl)rEl.value=ARTS.length;
+}
+// ── End Site Stats ────────────────────────────────────────
 
 function buildTicker(){
   var el=document.getElementById('ticker-inner');if(!el)return;
