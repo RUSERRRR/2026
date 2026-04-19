@@ -2499,8 +2499,9 @@ function nlTypeTag(cat){
 }
 function nlCardHTML(p,feat){
   var catCls='cat-'+(p.cat||'update');
+  var id=p.id;
   if(feat){
-    return '<div class="nl-card feat '+catCls+'" onclick="openNlReader('+JSON.stringify(p.id)+')">'
+    return '<div class="nl-card feat '+catCls+'" data-nlid="'+id+'" style="cursor:pointer">'
       +'<div class="nl-card-body">'
       +'<div class="nl-card-meta">'+nlTypeTag(p.cat)+'<span class="nl-date">'+p.date+(p.author?' &middot; '+p.author:'')+'</span></div>'
       +'<h3 class="nl-card-title">'+p.title+'</h3>'
@@ -2510,7 +2511,7 @@ function nlCardHTML(p,feat){
       +'<div class="nl-card-vis">'+(p.imageUrl?'<img src="'+p.imageUrl+'" alt="">':'<svg viewBox="0 0 80 50" style="width:64px;opacity:.15" fill="none" stroke="#C8A45A" stroke-width="1.2"><path d="M40,5 Q75,25 40,45 Q5,25 40,5Z"/><circle cx="40" cy="25" r="10"/><circle cx="40" cy="25" r="4" fill="#C8A45A"/></svg>')+'</div>'
       +'</div>';
   }
-  return '<div class="nl-card '+catCls+'" onclick="openNlReader('+JSON.stringify(p.id)+')">'
+  return '<div class="nl-card '+catCls+'" data-nlid="'+id+'" style="cursor:pointer">'
     +'<div class="nl-card-meta">'+nlTypeTag(p.cat)+'<span class="nl-date">'+p.date+(p.author?' &middot; '+p.author:'')+'</span></div>'
     +'<h3 class="nl-card-title">'+p.title+'</h3>'
     +'<p class="nl-card-exc">'+p.excerpt+'</p>'
@@ -2527,6 +2528,11 @@ function renderNlPosts(filter){
   if(!posts.length){grid.innerHTML='';if(empty)empty.style.display='block';return;}
   if(empty)empty.style.display='none';
   grid.innerHTML=posts.map(function(p,i){return nlCardHTML(p,i===0&&filter==='all'&&p.featured);}).join('');
+  // Event delegation — safe ID passing, no inline onclick quoting issues
+  grid.onclick=function(e){
+    var card=e.target.closest('[data-nlid]');
+    if(card){openNlReader(card.getAttribute('data-nlid'));}
+  };
 }
 function filterNl(btn){
   document.querySelectorAll('[data-nlf]').forEach(function(b){b.classList.remove('on');});
