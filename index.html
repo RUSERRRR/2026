@@ -925,7 +925,8 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
         <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         Share on LinkedIn
       </a>
-    </div>
+      <button id="art-copy-link" style="display:inline-flex;align-items:center;gap:.5rem;background:transparent;border:1px solid var(--border);color:var(--muted);padding:.55rem 1.1rem;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseenter="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Copy Link</button>
+</div>
   </div>
 </div>
 
@@ -1069,6 +1070,9 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
         <div class="form-row">
           <div class="fg"><label class="lbl">Category *</label><select class="fi" id="nlp-cat"><option value="partnership">Partnership</option><option value="update">Update</option><option value="announcement">Announcement</option><option value="milestone">Milestone</option></select></div>
           <div class="fg"><label class="lbl">Author</label><input class="fi" id="nlp-author" type="text" placeholder="Envision Team"></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label class="lbl">Publication Date</label><input class="fi" id="nlp-date" type="date" title="Leave blank to use today's date"></div>
         </div>
         <div class="fg"><label class="lbl">Cover Image <span style="color:var(--muted);font-weight:400">(optional)</span></label>
           <div style="display:flex;gap:.8rem;align-items:flex-start;flex-wrap:wrap">
@@ -1893,14 +1897,31 @@ function openReader(id){
   } else { pdfBlock.innerHTML=''; }
   document.getElementById('reader-body-el').innerHTML=a.body;
   var r=document.getElementById('art-reader');r.classList.add('open');r.scrollTop=0;
-  // LinkedIn share — share the envision.report site with the article title as summary
+  // Set URL hash so this article has a shareable link
+  history.pushState({type:'article',id:id},'',location.pathname+'#article/'+id);
+  // Update LinkedIn share with the direct article link
   var liBtn=document.getElementById('art-share-li');
   if(liBtn){
-    var liUrl='https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent('https://envision.report')+'&summary='+encodeURIComponent(a.title+' — via Envision');
+    var articleUrl=location.origin+location.pathname+'#article/'+id;
+    var liUrl='https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(articleUrl);
     liBtn.href=liUrl;
   }
+  // Add copy link button if not already present
+  var copyLinkBtn=document.getElementById('art-copy-link');
+  if(copyLinkBtn){
+    copyLinkBtn.onclick=function(){
+      navigator.clipboard.writeText(location.origin+location.pathname+'#article/'+id)
+        .then(function(){showToast('Link copied!','Share this link to take people directly to the article.');})
+        .catch(function(){showToast('Copy failed','Please copy the URL from your browser address bar.');});
+    };
+  }
 }
-function closeReader(){document.getElementById('art-reader').classList.remove('open');}
+function closeReader(){
+  document.getElementById('art-reader').classList.remove('open');
+  if(location.hash.startsWith('#article/')){
+    history.pushState('',document.title,location.pathname);
+  }
+}
 function subscribe(inputId){
   var inp=document.getElementById(inputId);
   var email=inp?inp.value.trim():'';
@@ -1976,11 +1997,38 @@ function openAdmin(){openAdminGate();}
 function closeAdmin(){document.getElementById('admin-panel').classList.remove('open');document.getElementById('adm-login').classList.remove('open');history.pushState('',document.title,window.location.pathname+window.location.search);}
 (function(){
   function checkHash(){
-    if(window.location.hash==='#admin'){openAdminGate();}
-    else{document.getElementById('admin-panel').classList.remove('open');}
+    var h=window.location.hash;
+    if(h==='#admin'){
+      openAdminGate();
+    } else if(h.startsWith('#article/')){
+      var id=h.replace('#article/','');
+      // Wait for ARTS to load from Supabase if needed
+      function tryOpenArticle(attempts){
+        var a=ARTS.find(function(x){return x.id===id;});
+        if(a){openReader(id);}
+        else if(attempts>0){setTimeout(function(){tryOpenArticle(attempts-1);},300);}
+      }
+      tryOpenArticle(10);
+    } else if(h.startsWith('#newsletter/')){
+      var id=h.replace('#newsletter/','');
+      function tryOpenNl(attempts){
+        var p=NL_POSTS.find(function(x){return x.id===id;});
+        if(p){openNlReader(id);}
+        else if(attempts>0){setTimeout(function(){tryOpenNl(attempts-1);},300);}
+      }
+      tryOpenNl(10);
+    } else {
+      document.getElementById('admin-panel').classList.remove('open');
+    }
   }
   window.addEventListener('hashchange',checkHash);
-  window.addEventListener('DOMContentLoaded',function(){setTimeout(checkHash,200);});
+  window.addEventListener('DOMContentLoaded',function(){setTimeout(checkHash,400);});
+  // Also handle browser back button
+  window.addEventListener('popstate',function(){
+    if(!location.hash||location.hash===''){
+      closeReader();closeNlReader();
+    }
+  });
 })();
 function showAdmTab(id,btn){
   document.querySelectorAll('.adm-tab').forEach(function(t){t.classList.remove('on');});
@@ -2505,7 +2553,12 @@ function openNlReader(id){
     nlLiBtn.href=nlLiUrl;
   }
 }
-function closeNlReader(){document.getElementById('nl-reader').classList.remove('open');}
+function closeNlReader(){
+  document.getElementById('nl-reader').classList.remove('open');
+  if(location.hash.startsWith('#newsletter/')){
+    history.pushState('',document.title,location.pathname);
+  }
+}
 function previewNlImg(input){
   if(!input.files||!input.files[0])return;
   var fr=new FileReader();
@@ -2522,7 +2575,7 @@ function clearNlImg(){
   var pv=document.getElementById('nlp-img-preview');if(pv)pv.style.display='none';
 }
 function clearNlForm(){
-  ['nlp-title','nlp-author','nlp-excerpt','nlp-body','nlp-link'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+  ['nlp-title','nlp-author','nlp-excerpt','nlp-body','nlp-link','nlp-date'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
   var cat=document.getElementById('nlp-cat');if(cat)cat.value='partnership';
   clearNlImg();NL_EDIT_ID=null;
   var ft=document.getElementById('nlform-title');if(ft)ft.textContent='New Newsletter Post';
@@ -2533,6 +2586,8 @@ async function publishNlPost(){
   var title=(document.getElementById('nlp-title').value||'').trim();
   var cat=document.getElementById('nlp-cat').value;
   var author=(document.getElementById('nlp-author').value||'').trim()||'Envision Team';
+  var nlDateEl=document.getElementById('nlp-date');
+  var nlPubDate=nlDateEl&&nlDateEl.value?new Date(nlDateEl.value).toISOString():new Date().toISOString();
   var excerpt=(document.getElementById('nlp-excerpt').value||'').trim();
   var body=(document.getElementById('nlp-body').value||'').trim();
   var link=(document.getElementById('nlp-link').value||'').trim();
@@ -2541,7 +2596,7 @@ async function publishNlPost(){
   if(!title||!excerpt||!body){if(st)st.textContent='Please fill all required fields.';return;}
   if(st)st.textContent='Saving...';
   if(NL_EDIT_ID){
-    var row={title:title,cat:cat,author:author,excerpt:excerpt,body:body,link:link};
+    var row={title:title,cat:cat,author:author,excerpt:excerpt,body:body,link:link,published_at:nlPubDate};
     if(img)row.image_url=img;
     var updated=await sbUpdate('nl_posts',NL_EDIT_ID,row);
     if(updated){
@@ -2554,7 +2609,7 @@ async function publishNlPost(){
     } else { if(st)st.textContent='Error saving.'; }
   } else {
     var newId='nl'+Date.now();
-    var row={id:newId,title:title,cat:cat,author:author,excerpt:excerpt,body:body,link:link,image_url:img||'',featured:false};
+    var row={id:newId,title:title,cat:cat,author:author,excerpt:excerpt,body:body,link:link,image_url:img||'',featured:false,published_at:nlPubDate};
     var inserted=await sbInsert('nl_posts',row);
     if(inserted){
       NL_POSTS.unshift(rowToNl(inserted));
@@ -2576,6 +2631,8 @@ function editNlPost(id){
   document.getElementById('nlp-title').value=fields.nlpTitle;
   document.getElementById('nlp-cat').value=fields.nlpCat;
   document.getElementById('nlp-author').value=fields.nlpAuthor;
+  var nlDateFill=document.getElementById('nlp-date');
+  if(nlDateFill&&p.date){try{var nd=new Date(p.date);if(!isNaN(nd))nlDateFill.value=nd.toISOString().split('T')[0];}catch(e){}}
   document.getElementById('nlp-excerpt').value=fields.nlpExcerpt;
   document.getElementById('nlp-body').value=fields.nlpBody;
   document.getElementById('nlp-link').value=fields.nlpLink;
@@ -2993,9 +3050,12 @@ function refreshSliders(){
 function renderPerspectivesArts(){
   var el=document.getElementById('perspectives-arts');if(!el)return;
   var persp=ARTS.filter(function(a){return a.team==='perspectives';}).slice(0,4);
-  if(!persp.length){if(el)el.style.display='none';return;}
+  if(!persp.length){el.style.display='none';return;}
+  el.style.display=''; // reset any previous hide
   el.innerHTML=persp.map(function(a,i){return cardHTML(a,false);}).join('');
-  if(isMobile())buildSlider('perspectives-arts-track','perspectives-arts-dots',persp);
+  if(isMobile()){
+    buildSlider('perspectives-arts-track','perspectives-arts-dots',persp);
+  }
 }
 </script>
 </div><!-- /scroll-wrap -->
@@ -3091,6 +3151,6 @@ function closeMobMore(){}
 function toggleMobMore(){}
 function mobNav(p,s){mobGo(p,s);}
 </script>
-</body>
 
+</body>
 </html>
