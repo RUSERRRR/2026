@@ -1838,7 +1838,9 @@ function cardHTML(a,feat){
 }
 function renderHomeArts(){
   var el=document.getElementById('home-arts');if(!el)return;
-  var sorted=ARTS.slice().sort(function(a,b){return (b.featured?1:0)-(a.featured?1:0);});
+  // Exclude Perspectives & Culture — those appear in their own section below
+  var sorted=ARTS.filter(function(a){return a.team!=='perspectives';})
+    .sort(function(a,b){return (b.featured?1:0)-(a.featured?1:0);});
   el.innerHTML=sorted.slice(0,3).map(function(a,i){return cardHTML(a,i===0);}).join('');
   if(isMobile())buildSlider('home-arts-track','home-arts-dots',sorted.slice(0,6));
 }
