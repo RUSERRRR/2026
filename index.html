@@ -825,6 +825,139 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
 .fmt-img-btn{display:inline-flex;align-items:center;gap:.4rem}
 #body-drop-zone{border:1px dashed var(--border);border-bottom:none;padding:1rem 1.4rem;display:flex;align-items:center;gap:.8rem;color:var(--muted);font-family:'DM Mono',monospace;font-size:.62rem;transition:all .2s;cursor:pointer;background:var(--bg)}
 #body-drop-zone:hover,#body-drop-zone.drag-over{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+
+/* ── Newsletter Reader (email-style) ────────────────────── */
+.nl-reader-body{
+  max-width:640px;
+  margin:0 auto;
+  padding:3rem 2rem 5rem;
+}
+.nl-email-wrap{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:2px;
+  overflow:hidden;
+}
+/* Category colour band at top */
+.nl-email-header{
+  padding:2.5rem 2.5rem 2rem;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.nl-email-header::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:var(--nl-accent,var(--gold));
+}
+.nl-email-badge{
+  display:inline-block;
+  font-family:'DM Mono',monospace;
+  font-size:.56rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  padding:.3rem .7rem;
+  border:1px solid var(--nl-accent,var(--gold));
+  color:var(--nl-accent,var(--gold));
+  margin-bottom:1.2rem;
+  border-radius:2px;
+}
+.nl-email-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.6rem,4vw,2.4rem);
+  font-weight:600;
+  line-height:1.25;
+  color:var(--text);
+  margin-bottom:.8rem;
+}
+.nl-email-meta{
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.1em;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+  flex-wrap:wrap;
+}
+.nl-email-meta::before{
+  content:'';
+  display:block;
+  width:20px;
+  height:1px;
+  background:var(--nl-accent,var(--gold));
+  opacity:.5;
+}
+/* Cover image */
+.nl-email-img{
+  width:100%;
+  max-height:360px;
+  object-fit:cover;
+  display:block;
+  border-bottom:1px solid var(--border);
+}
+/* Body content */
+.nl-email-content{
+  padding:2.5rem;
+  font-size:.93rem;
+  line-height:1.85;
+  color:var(--text);
+}
+.nl-email-content p{margin-bottom:1.2rem;}
+.nl-email-content h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;
+  font-weight:600;
+  margin:2rem 0 .8rem;
+  color:var(--text);
+}
+.nl-email-content h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;
+  font-weight:600;
+  margin:1.5rem 0 .6rem;
+  color:var(--text);
+}
+.nl-email-content blockquote{
+  border-left:2px solid var(--nl-accent,var(--gold));
+  padding-left:1.2rem;
+  margin:1.5rem 0;
+  font-style:italic;
+  color:var(--muted);
+}
+.nl-email-content a{color:var(--nl-accent,var(--gold));}
+.nl-email-content strong{color:var(--text);font-weight:700;}
+/* Footer strip */
+.nl-email-footer{
+  padding:1.5rem 2.5rem;
+  border-top:1px solid var(--border);
+  background:var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+.nl-email-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;
+  font-weight:600;
+  color:var(--muted);
+  letter-spacing:.05em;
+}
+.nl-email-brand em{color:var(--nl-accent,var(--gold));font-style:normal;}
+/* Category accent colours */
+.nl-accent-partnership{--nl-accent:#5de0a0;}
+.nl-accent-update{--nl-accent:#C8A45A;}
+.nl-accent-announcement{--nl-accent:#6ab0f5;}
+.nl-accent-milestone{--nl-accent:#f59c6a;}
+@media(max-width:768px){
+  .nl-reader-body{padding:1rem 0 4rem;}
+  .nl-email-header{padding:1.8rem 1.4rem 1.4rem;}
+  .nl-email-content{padding:1.8rem 1.4rem;}
+  .nl-email-footer{padding:1.2rem 1.4rem;}
+}
 </style>
 </head>
 <body>
@@ -931,22 +1064,32 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
 </div>
 
 <div id="nl-reader">
+  <!-- Back nav -->
   <div class="reader-nav">
     <button class="reader-back" onclick="closeNlReader()">&#x2190; Back to Newsletter</button>
-    <span id="nl-reader-tag" class="atag"></span>
+    <button id="nl-copy-link" style="display:inline-flex;align-items:center;gap:.5rem;background:transparent;border:1px solid var(--border);color:var(--muted);padding:.55rem 1.1rem;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s" onmouseenter="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--muted)'"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Copy Link</button>
   </div>
+  <!-- Email-style container -->
   <div class="nl-reader-body">
-    <div id="nl-reader-tagbadge"></div>
-    <h1 class="nl-reader-h1" id="nl-reader-title"></h1>
-    <p class="nl-reader-meta" id="nl-reader-meta"></p>
-    <img id="nl-reader-img" class="nl-reader-img" src="" alt="" style="display:none">
-    <div class="nl-reader-content" id="nl-reader-body"></div>
-    <div class="reader-actions">
-      <span class="reader-actions-label">Share</span>
-      <a id="nl-share-li" class="share-btn" href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        Share on LinkedIn
-      </a>
+    <div class="nl-email-wrap" id="nl-email-wrap">
+      <!-- Cover image (shown if set) -->
+      <img id="nl-reader-img" class="nl-email-img" src="" alt="" style="display:none">
+      <!-- Header -->
+      <div class="nl-email-header">
+        <div class="nl-email-badge" id="nl-reader-tagbadge"></div>
+        <h1 class="nl-email-title" id="nl-reader-title"></h1>
+        <div class="nl-email-meta" id="nl-reader-meta"></div>
+      </div>
+      <!-- Body -->
+      <div class="nl-email-content" id="nl-reader-body"></div>
+      <!-- Footer -->
+      <div class="nl-email-footer">
+        <span class="nl-email-brand">EN<em>V</em>ISION</span>
+        <a id="nl-share-li" class="share-btn" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s" onmouseenter="this.style.color='var(--gold)'" onmouseleave="this.style.color='var(--muted)'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          Share on LinkedIn
+        </a>
+      </div>
     </div>
   </div>
 </div>
