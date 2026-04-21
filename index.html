@@ -2687,22 +2687,32 @@ function filterNl(btn){
 function openNlReader(id){
   var p=NL_POSTS.find(function(x){return x.id===id;});
   if(!p)return;
-  document.getElementById('nl-reader-tag').textContent=NL_TAG_LABELS[p.cat]||p.cat;
+  var wrap=document.getElementById('nl-email-wrap');
+  if(wrap){wrap.className='nl-email-wrap nl-accent-'+(p.cat||'update');}
   var badge=document.getElementById('nl-reader-tagbadge');
-  badge.textContent=NL_TAG_LABELS[p.cat]||p.cat;
-  badge.className='nl-reader-tag '+(NL_TAG_CLASSES[p.cat]||'');
-  document.getElementById('nl-reader-title').textContent=p.title;
-  document.getElementById('nl-reader-meta').textContent=p.date+(p.author?' \u2014 '+p.author:'');
+  if(badge){badge.textContent=NL_TAG_LABELS[p.cat]||p.cat;badge.className='nl-email-badge';}
+  var titleEl=document.getElementById('nl-reader-title');
+  if(titleEl)titleEl.textContent=p.title;
+  var metaEl=document.getElementById('nl-reader-meta');
+  if(metaEl)metaEl.textContent=p.date+(p.author?' — '+p.author:'');
   var imgEl=document.getElementById('nl-reader-img');
-  if(p.imageUrl){imgEl.src=p.imageUrl;imgEl.style.display='block';}else{imgEl.style.display='none';}
+  if(imgEl){if(p.imageUrl){imgEl.src=p.imageUrl;imgEl.style.display='block';}else{imgEl.style.display='none';}}
   var bodyEl=document.getElementById('nl-reader-body');
-  bodyEl.innerHTML=p.body+(p.link?'<p style="margin-top:2rem"><a href="'+p.link+'" target="_blank" style="color:var(--gold)">Visit External Link &#x2192;</a></p>':'');
-  var r=document.getElementById('nl-reader');r.classList.add('open');r.scrollTop=0;
+  if(bodyEl)bodyEl.innerHTML=p.body+(p.link?'<p style="margin-top:2rem"><a href="'+p.link+'" target="_blank" style="color:var(--gold)">Visit External Link →</a></p>':'');
+  var r=document.getElementById('nl-reader');
+  r.classList.add('open');r.scrollTop=0;
+  history.pushState({type:'newsletter',id:id},'',location.pathname+'#newsletter/'+id);
   var nlLiBtn=document.getElementById('nl-share-li');
   if(nlLiBtn){
-    var nlLiUrl='https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent('https://envision.report')+'&summary='+encodeURIComponent(p.title+' — Envision Newsletter');
-    nlLiBtn.href=nlLiUrl;
+    var articleUrl=location.origin+location.pathname+'#newsletter/'+id;
+    nlLiBtn.href='https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(articleUrl);
   }
+  var nlCopyBtn=document.getElementById('nl-copy-link');
+  if(nlCopyBtn){nlCopyBtn.onclick=function(){
+    navigator.clipboard.writeText(location.origin+location.pathname+'#newsletter/'+id)
+      .then(function(){showToast('Link copied!','Share this link to take people directly to this post.');})
+      .catch(function(){showToast('Copy failed','Please copy the URL from your browser address bar.');});
+  };}
 }
 function closeNlReader(){
   document.getElementById('nl-reader').classList.remove('open');
