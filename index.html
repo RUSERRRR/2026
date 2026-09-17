@@ -383,6 +383,7 @@ footer{padding:3rem 3.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2r
   .nl-btn{width:100%;max-width:340px;padding:.85rem;text-align:center}
   /* Footer */
   footer{grid-template-columns:1fr;text-align:center;padding:2rem 1.4rem;gap:1rem}
+  .footer-brand{justify-content:center}
   .fl{justify-content:center}
   /* CTA */
   .cta-strip{padding:4rem 1.4rem}
@@ -705,43 +706,11 @@ footer{padding-left:max(var(--gutter),calc((100vw - var(--mw))/2));padding-right
 .pbenefit-n{font-family:'Inter',monospace;font-size:.5rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.6rem}
 .pbenefit-t{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.25rem;font-weight:600;margin-bottom:.6rem}
 .pbenefit-d{font-size:.8rem;color:var(--muted);line-height:1.7}
-/* Intelligence tool */
-.intel-tool{border:1px solid var(--border);background:var(--bg2);overflow:hidden;margin-top:4rem}
-.intel-header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.2rem 2rem;display:flex;align-items:center;gap:1rem}
-.intel-dots{display:flex;gap:.5rem}
-.intel-dot{width:10px;height:10px;border-radius:50%}
-.intel-title{font-family:'Inter',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);flex:1;text-align:center}
-.intel-badge{font-family:'Inter',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;padding:.15rem .6rem;background:rgba(14,124,123,.12);border:1px solid rgba(14,124,123,.4);color:var(--gold)}
-.intel-body{display:grid;grid-template-columns:260px 1fr;min-height:420px}
-.intel-sidebar{border-right:1px solid var(--border);padding:1.5rem;display:flex;flex-direction:column;gap:.3rem}
-.intel-s-label{font-family:'Inter',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted2);padding:.4rem .6rem;margin-top:.8rem}
-.intel-s-item{padding:.65rem .8rem;border-radius:0;cursor:pointer;display:flex;align-items:center;gap:.7rem;transition:background .2s;font-size:.78rem;color:var(--muted)}
-.intel-s-item svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0}
-.intel-s-item.active,.intel-s-item:hover{background:rgba(14,124,123,.08);color:var(--gold)}
-.intel-main{padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
-.intel-search{display:flex;gap:.5rem;align-items:center;background:var(--surface);border:1px solid var(--border);padding:.7rem 1rem;transition:border-color .2s}
-.intel-search:focus-within{border-color:var(--gold)}
-.intel-search svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0}
-.intel-search input{background:none;border:none;outline:none;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;flex:1}
-.intel-search input::placeholder{color:var(--muted2)}
-.intel-row{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
-.intel-metric{flex:1;min-width:120px;background:var(--surface);border:1px solid var(--border);padding:1.2rem;text-align:center}
-.intel-metric-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.8rem;font-weight:600;color:var(--gold)}
-.intel-metric-l{font-family:'Inter',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
-.intel-result{border:1px solid var(--border);background:var(--bg);padding:1rem 1.2rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
-.intel-result-title{font-size:.85rem;font-weight:600;margin-bottom:.2rem}
-.intel-result-meta{font-family:'Inter',monospace;font-size:.55rem;letter-spacing:.08em;color:var(--muted)}
-.intel-result-tag{font-family:'Inter',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;padding:.18rem .5rem;border:1px solid rgba(14,124,123,.4);color:var(--gold);flex-shrink:0;align-self:flex-start}
-.intel-lock{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;padding:3rem;text-align:center;border-top:1px solid var(--border);background:linear-gradient(to top,var(--bg2),transparent)}
-.intel-lock svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.4;opacity:.7}
-.intel-lock p{font-family:'Inter',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 /* Contact form */
 .partner-form-wrap{background:var(--surface);border:1px solid var(--border);padding:3.5rem;max-width:680px;margin:4rem auto 0}
 /* Mobile */
 @media(max-width:1024px){
   .partner-benefit-grid{grid-template-columns:1fr}
-  .intel-body{grid-template-columns:1fr}
-  .intel-sidebar{display:none}
   .partner-form-wrap{padding:2rem 1.4rem;margin:2.5rem 0 0}
 }
 
@@ -1196,7 +1165,7 @@ nav.scrolled{
 
 .newsletter{
   max-width:1240px;
-  margin:0 auto;
+  margin:2rem auto 0;
   border:1px solid var(--border);
   border-radius:28px;
   background:linear-gradient(135deg,#fff,#f1fbff);
@@ -1303,7 +1272,7 @@ footer{
   .art-grid{gap:12px}
   .ac,.ac.feat .ac-body{padding:1.5rem}
   .ac.feat .ac-vis{display:none}
-  .newsletter{margin:0 1.2rem;padding:1.6rem;border-radius:22px}
+  .newsletter{margin:1rem 1.2rem 0;padding:1.6rem;border-radius:22px}
   .cta-strip{margin:1rem 1.2rem 0;border-radius:26px;padding:4.5rem 1.3rem}
   footer{margin:1rem 1.2rem 0;padding:2rem 0}
 }
@@ -1373,16 +1342,6 @@ footer{
     <li><a data-p="articles" onclick="goPage('articles')">Articles</a></li>
     <li><a data-p="about" onclick="goPage('about')">About</a></li>
     <li><a data-p="newsletter" onclick="goPage('newsletter')">Newsletter</a></li>
-    <li class="dd" id="dd-teams">
-      <a onclick="toggleDD('dd-teams')">Teams &#x2193;</a>
-      <div class="dd-menu">
-        <a onclick="closeAllDD();goPage('articles')">Technology &amp; Innovation</a>
-        <a onclick="closeAllDD();goPage('articles')">Venture Capital &amp; PE</a>
-        <a onclick="closeAllDD();goPage('articles')">Global Markets</a>
-        <a onclick="closeAllDD();goPage('articles')">Corporate Advisory</a>
-        <a onclick="closeAllDD();goPage('articles')">Perspectives &amp; Culture</a>
-      </div>
-    </li>
     <li class="dd" id="dd-involve">
       <a onclick="toggleDD('dd-involve')">Get Involved &#x2193;</a>
       <div class="dd-menu">
@@ -1691,7 +1650,7 @@ footer{
 
   <!-- ── NEWSLETTER + FOOTER ── -->
   <div class="newsletter rv"><div class="nl-text"><h3>Stay Informed.</h3><p>Follow us on LinkedIn for the latest research, events, and association news.</p></div><div class="nl-form"><a class="nl-btn" href="https://www.linkedin.com/company/envisionfoundation/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.6rem;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>Follow on LinkedIn</a></div></div>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- NEWSLETTER -->
@@ -1715,7 +1674,7 @@ footer{
     <div id="nl-empty" style="display:none;padding:4rem 0;text-align:center;color:var(--muted);font-family:'Inter',monospace;font-size:.72rem;letter-spacing:.12em">// NO POSTS YET &mdash; CHECK BACK SOON</div>
   </section>
   <div class="newsletter rv"><div class="nl-text"><h3>Stay Informed.</h3><p>Follow us on LinkedIn for partnership news, milestones, and community updates.</p></div><div class="nl-form"><a class="nl-btn" href="https://www.linkedin.com/company/envisionfoundation/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.6rem;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>Follow on LinkedIn</a></div></div>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- ARTICLES -->
@@ -1739,7 +1698,7 @@ footer{
     <div class="art-slider-dots" id="all-arts-dots"></div>
   </section>
   <div class="newsletter rv"><div class="nl-text"><h3>Stay Informed.</h3><p>Follow us on LinkedIn for the latest student research and association updates.</p></div><div class="nl-form"><a class="nl-btn" href="https://www.linkedin.com/company/envisionfoundation/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.6rem;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>Follow on LinkedIn</a></div></div>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- ABOUT -->
@@ -1771,7 +1730,7 @@ footer{
   </section>
   <div class="divider"></div>
   <section class="cta-strip"><div class="cta-bg-el"></div><div class="rv"><h2 class="cta-h">Ready to Do<em> More Than Study?</em></h2><p class="cta-sub">Join Envision and gain hands-on research experience, build your professional network, and publish work that reaches a global audience.</p><div class="cta-btns"><span class="btn-gold" onclick="goPage('apply')">Apply Now</span><span class="btn-outline" onclick="goPage('articles')">Read Our Work</span></div></div></section>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 
@@ -1796,7 +1755,7 @@ footer{
     <div id="nl-empty" style="display:none;padding:4rem 0;text-align:center;color:var(--muted);font-family:'Inter',monospace;font-size:.72rem;letter-spacing:.12em">// NO POSTS YET &mdash; CHECK BACK SOON</div>
   </section>
   <div class="newsletter rv"><div class="nl-text"><h3>Stay Informed.</h3><p>Follow us on LinkedIn for partnership news, milestones, and community updates.</p></div><div class="nl-form"><a class="nl-btn" href="https://www.linkedin.com/company/envisionfoundation/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.6rem;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>Follow on LinkedIn</a></div></div>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- ARTICLES -->
@@ -1820,7 +1779,7 @@ footer{
     <div class="art-slider-dots" id="all-arts-dots"></div>
   </section>
   <div class="newsletter rv"><div class="nl-text"><h3>Stay Informed.</h3><p>Follow us on LinkedIn for the latest student research and association updates.</p></div><div class="nl-form"><a class="nl-btn" href="https://www.linkedin.com/company/envisionfoundation/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.6rem;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>Follow on LinkedIn</a></div></div>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- ABOUT -->
@@ -1852,7 +1811,7 @@ footer{
   </section>
   <div class="divider"></div>
   <section class="cta-strip"><div class="cta-bg-el"></div><div class="rv"><h2 class="cta-h">Ready to Do<em> More Than Study?</em></h2><p class="cta-sub">Join Envision and gain hands-on research experience, build your professional network, and publish work that reaches a global audience.</p><div class="cta-btns"><span class="btn-gold" onclick="goPage('apply')">Apply Now</span><span class="btn-outline" onclick="goPage('articles')">Read Our Work</span></div></div></section>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- TEAMS -->
@@ -1873,7 +1832,7 @@ footer{
     </div>
   </section>
   <section class="cta-strip"><div class="cta-bg-el"></div><div class="rv"><h2 class="cta-h">Join a<em> Team.</em></h2><p class="cta-sub">Apply to join one of our five student teams and gain hands-on research experience alongside peers from universities across the globe.</p><div class="cta-btns"><span class="btn-gold" onclick="goPage('apply')">Apply Now</span></div></div></section>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- CONTRIBUTORS -->
@@ -1897,7 +1856,7 @@ footer{
       <div class="ps rv d4"><span class="ps-n">5</span><p class="ps-t">Publish</p><p class="ps-d">Collaborate with your team and publish your first report.</p></div>
     </div>
   </section>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- APPLY -->
@@ -1946,7 +1905,7 @@ footer{
       </div>
     </div>
   </section>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- PARTNERSHIP -->
@@ -1960,7 +1919,6 @@ footer{
       <p style="color:var(--muted);margin-top:1.5rem;font-size:.95rem;line-height:1.9;max-width:580px">Envision partners engage directly with our student research community. We embed your organisation&#39;s real challenges into our research agenda, delivering rigorous, independent analysis produced by the next generation of analysts &mdash; and a direct pipeline to exceptional emerging talent.</p>
       <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap">
         <span class="btn-gold" onclick="document.getElementById('partner-contact').scrollIntoView({behavior:'smooth'})">Get in Touch</span>
-        <span class="btn-outline" onclick="document.getElementById('partner-intel').scrollIntoView({behavior:'smooth'})">Partner Intelligence Tool &#x2193;</span>
       </div>
     </div>
   </section>
@@ -1975,87 +1933,24 @@ footer{
         <p class="pbenefit-d">A full consultancy report authored by one of our specialist teams, tailored to your sector, challenge, or market question. Co-branded, publication-ready, and referenced by our readership of 50,000+.</p>
       </div>
       <div class="pbenefit rv d1">
-        <div class="pbenefit-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        <p class="pbenefit-n">02 //</p><p class="pbenefit-t">Envision Intelligence Access</p>
-        <p class="pbenefit-d">Exclusive access to our partner-only research intelligence platform. Query our full report archive, surface sector-specific insights, and monitor emerging themes across all five practice areas in real time.</p>
-      </div>
-      <div class="pbenefit rv d2">
         <div class="pbenefit-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <p class="pbenefit-n">03 //</p><p class="pbenefit-t">Team Introductions</p>
+        <p class="pbenefit-n">02 //</p><p class="pbenefit-t">Team Introductions</p>
         <p class="pbenefit-d">Direct introductions to our contributor teams and board leads. Engage directly with our student community. Envision is a pipeline for exceptional emerging talent across finance, technology, and strategy &mdash; all actively looking to begin their careers.</p>
       </div>
       <div class="pbenefit rv d1">
         <div class="pbenefit-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-        <p class="pbenefit-n">04 //</p><p class="pbenefit-t">Market Intelligence Briefings</p>
+        <p class="pbenefit-n">03 //</p><p class="pbenefit-t">Market Intelligence Briefings</p>
         <p class="pbenefit-d">Quarterly briefing sessions where our analysts walk you through sector trends, relevant findings from our latest reports, and the macro signals most pertinent to your business.</p>
       </div>
       <div class="pbenefit rv d2">
         <div class="pbenefit-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-        <p class="pbenefit-n">05 //</p><p class="pbenefit-t">Co-Branded Publication</p>
+        <p class="pbenefit-n">04 //</p><p class="pbenefit-t">Co-Branded Publication</p>
         <p class="pbenefit-d">Your organisation&#39;s name and logo alongside Envision&#39;s on all published outputs. Full distribution through our website, social channels, and newsletter to 50,000+ monthly readers.</p>
       </div>
       <div class="pbenefit rv d3">
         <div class="pbenefit-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <p class="pbenefit-n">06 //</p><p class="pbenefit-t">Priority Research Queue</p>
+        <p class="pbenefit-n">05 //</p><p class="pbenefit-t">Priority Research Queue</p>
         <p class="pbenefit-d">Partners jump the queue. Your research brief is assigned to a dedicated team within five working days and delivered with priority editorial review and turnaround.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ENVISION INTELLIGENCE TOOL -->
-  <section class="s-pad" id="partner-intel">
-    <div class="rv">
-      <p class="section-tag">Partner Exclusive</p>
-      <h2 class="section-title">Envision<em> Intelligence</em></h2>
-      <p style="color:var(--muted);font-size:.88rem;line-height:1.8;max-width:580px;margin-top:.8rem">Our proprietary research intelligence platform, available exclusively to Envision partners. Query our full report archive, surface insights by sector, and monitor emerging signals across global markets — all in one place.</p>
-    </div>
-    <div class="intel-tool rv">
-      <div class="intel-header">
-        <div class="intel-dots">
-          <div class="intel-dot" style="background:#e24b4a"></div>
-          <div class="intel-dot" style="background:#e8a030"></div>
-          <div class="intel-dot" style="background:#3ab54a"></div>
-        </div>
-        <span class="intel-title">Envision Intelligence &mdash; Research Platform</span>
-        <span class="intel-badge">&#x25CF; Partner Access</span>
-      </div>
-      <div class="intel-body">
-        <div class="intel-sidebar">
-          <span class="intel-s-label">Workspace</span>
-          <div class="intel-s-item active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
-          <div class="intel-s-item"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Research Search</div>
-          <div class="intel-s-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Market Signals</div>
-          <div class="intel-s-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report Archive</div>
-          <span class="intel-s-label">Teams</span>
-          <div class="intel-s-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Global Markets</div>
-          <div class="intel-s-item"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Technology</div>
-          <div class="intel-s-item"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Venture Capital</div>
-        </div>
-        <div class="intel-main">
-          <div class="intel-search">
-            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" placeholder="Search reports, sectors, companies, themes..." readonly>
-            <span style="font-family:'Inter',monospace;font-size:.52rem;letter-spacing:.1em;color:var(--muted);padding:.2rem .5rem;border:1px solid var(--border)">&#x2318; K</span>
-          </div>
-          <div class="intel-row">
-            <div class="intel-metric"><div class="intel-metric-n">10</div><div class="intel-metric-l">Published Reports</div></div>
-            <div class="intel-metric"><div class="intel-metric-n">5</div><div class="intel-metric-l">Practice Areas</div></div>
-            <div class="intel-metric"><div class="intel-metric-n">30</div><div class="intel-metric-l">Contributors</div></div>
-            <div class="intel-metric"><div class="intel-metric-n">12</div><div class="intel-metric-l">Markets Covered</div></div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div class="intel-result"><div><div class="intel-result-title">Rise of Padel: Global Sport Disrupting Athletic Markets</div><div class="intel-result-meta">Corporate Advisory &middot; Feb 2026 &middot; 4 min read</div></div><span class="intel-result-tag">Report</span></div>
-            <div class="intel-result"><div><div class="intel-result-title">How Claude AI Will Transform Coworking and Collaboration</div><div class="intel-result-meta">Technology &amp; Innovation &middot; Jan 2026 &middot; 5 min read</div></div><span class="intel-result-tag">Report</span></div>
-            <div class="intel-result"><div><div class="intel-result-title">Wyoming&#39;s Bold Step into the Future of Stablecoins</div><div class="intel-result-meta">Venture Capital &amp; PE &middot; Oct 2024 &middot; 4 min read</div></div><span class="intel-result-tag">Report</span></div>
-          </div>
-          <div class="intel-lock">
-            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <p>Full access available to Envision partners only</p>
-            <span class="btn-gold" style="font-size:.68rem;padding:.55rem 1.4rem;cursor:pointer" onclick="document.getElementById('partner-contact').scrollIntoView({behavior:'smooth'})">Unlock Access &rarr;</span>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -2098,7 +1993,7 @@ Looking forward to connecting.
     </div>
   </section>
 
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <!-- NETWORK -->
@@ -2119,7 +2014,7 @@ Looking forward to connecting.
     </div>
   </section>
   <section class="cta-strip"><div class="cta-bg-el"></div><div class="rv"><h2 class="cta-h">Stay Connected.<em> Stay Envision.</em></h2><p class="cta-sub">Our student community is growing fast. Be among the first to shape what Envision becomes &mdash; for the members who come after you.</p><div class="cta-btns"><a class="btn-gold" href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">Join on LinkedIn</a><span class="btn-outline" onclick="goPage('contributors')">Current Roles</span></div></div></section>
-  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.youtube.com/channel/UCyEjCgbfP1zEzWuOvwPTd2g" target="_blank">YouTube</a><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
+  <footer><span class="footer-brand" style="display:inline-flex;align-items:center"><svg width="20" height="13" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:7px"><defs><linearGradient id="lg-ft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7C7B"/></linearGradient></defs><path d="M2,14 Q22,2 42,14 Q22,26 2,14Z" fill="none" stroke="url(#lg-ft)" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="14" r="6" fill="none" stroke="url(#lg-ft)" stroke-width="1.4" opacity="0.5"/><circle cx="22" cy="14" r="3.5" fill="url(#lg-ft)"/><circle cx="23.5" cy="12.5" r="1" fill="white" opacity="0.75"/></svg>ENVISION</span><p class="fc">&copy; 2026 Envision &mdash; Student Research Association</p><div class="fl"><a href="https://www.linkedin.com/company/envisionfoundation/" target="_blank">LinkedIn</a></div></footer>
 </div>
 
 <script>
@@ -2147,7 +2042,34 @@ var TEAMS={
 // ── Supabase config ──────────────────────────────────────
 var SB_URL='https://uuyuxurhyoinmtzjqapr.supabase.co';
 var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1eXV4dXJoeW9pbm10empxYXByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1ODUzNTYsImV4cCI6MjA5MjE2MTM1Nn0.8aot_MNN967qD7xp5eDJBSntZ-NSN3_-nIC2moFJE2o';
-function sbHeaders(){return{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'};}
+function sbHeaders(useAuth){
+  var tok=(useAuth&&SB_SESSION&&SB_SESSION.access_token)?SB_SESSION.access_token:SB_KEY;
+  return{'apikey':SB_KEY,'Authorization':'Bearer '+tok,'Content-Type':'application/json','Prefer':'return=representation'};
+}
+
+// ── Supabase auth (RLS on articles/nl_posts/site_stats now requires an
+//    authenticated role, not just the anon key — so admin writes sign in
+//    anonymously once to get a real "authenticated" session) ───────────
+var SB_SESSION=null;
+var _sbAuthPromise=null;
+async function sbEnsureAuth(){
+  if(SB_SESSION&&SB_SESSION.access_token)return SB_SESSION;
+  if(_sbAuthPromise)return _sbAuthPromise;
+  _sbAuthPromise=(async function(){
+    try{
+      var r=await fetch(SB_URL+'/auth/v1/signup',{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({})});
+      var data=await r.json();
+      if(r.ok&&data&&data.access_token){SB_SESSION=data;return SB_SESSION;}
+      console.error('Supabase auth session could not be established:',data);
+      showToast('Supabase Auth','Could not start an authenticated session — check that Anonymous Sign-ins are enabled in Supabase Auth settings.');
+      return null;
+    }catch(e){
+      console.error('Supabase auth exception:',e);
+      return null;
+    }finally{_sbAuthPromise=null;}
+  })();
+  return _sbAuthPromise;
+}
 
 // ── Supabase helpers ──────────────────────────────────────
 async function sbSelect(table,order){
@@ -2158,7 +2080,8 @@ async function sbSelect(table,order){
 }
 async function sbInsert(table,row){
   try{
-    var r=await fetch(SB_URL+'/rest/v1/'+table,{method:'POST',headers:sbHeaders(),body:JSON.stringify(row)});
+    await sbEnsureAuth();
+    var r=await fetch(SB_URL+'/rest/v1/'+table,{method:'POST',headers:sbHeaders(true),body:JSON.stringify(row)});
     var text=await r.text();
     if(!r.ok){
       var msg='Insert failed ('+r.status+'): '+text;
@@ -2171,10 +2094,11 @@ async function sbInsert(table,row){
 }
 async function sbUpdate(table,id,row){
   try{
+    await sbEnsureAuth();
     var url=SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id);
     var r=await fetch(url,{
       method:'PATCH',
-      headers:sbHeaders(),
+      headers:sbHeaders(true),
       body:JSON.stringify(row)
     });
     var text=await r.text();
@@ -2205,7 +2129,8 @@ async function sbUpdate(table,id,row){
 }
 async function sbDelete(table,id){
   try{
-    var r=await fetch(SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:sbHeaders()});
+    await sbEnsureAuth();
+    var r=await fetch(SB_URL+'/rest/v1/'+table+'?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:sbHeaders(true)});
     if(!r.ok){var text=await r.text();console.error('sbDelete error ('+r.status+'):',text);showToast('Supabase Error',text.slice(0,120));return false;}
     return true;
   }catch(e){console.error('sbDelete exception:',e);showToast('Network Error',e.message);return false;}
@@ -2521,6 +2446,7 @@ async function checkAdminPassword(){
   var hash=await _h(pw);
   if(hash===(_k1+_k2+_k3+_k4)){
     adminUnlocked=true;
+    sbEnsureAuth();
     document.getElementById('adm-login').classList.remove('open');
     document.getElementById('admin-panel').classList.add('open');
     refreshAdmin();
